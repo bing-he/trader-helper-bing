@@ -1,5 +1,11 @@
 """
 Fetches, processes, and forecasts fundamental energy data series.
+Input:
+Using:
+    1. Criterion/CriterionInfo/database_tables_list.csv (master mapping file)
+Output: 
+    1. INFO/Fundy.csv (historical data)
+    2. INFO/FundyForecast.csv (forecast data)
 
 This script manages data from a single master mapping file.
 It performs two main tasks:
