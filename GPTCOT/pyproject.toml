@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gptcot"
+version = "0.1.0"
+description = "Roll-aware CoT forward returns pipeline for Henry Hub futures."
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [{ name = "Natural Gas Analytics", email = "trader@example.com" }]
+dependencies = [
+    "pandas>=2.1",
+    "numpy>=1.25",
+    "matplotlib>=3.8",
+    "jinja2>=3.1",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7.4"]
+
+[tool.setuptools.packages.find]
+where = ["src"]

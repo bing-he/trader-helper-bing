@@ -1,0 +1,460 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "version": "3.0",
+    "title": "S&P Global Commodity Insights: Platts Forward Curves",
+    "description": "This includes all forward curves in the Platts database including the latest and historical values for the Curves.  Note that this includes products under many names, including PFC, M2M, FtS, and exchange data.",
+    "termsOfService": "https://www.spglobal.com/platts/en/about-platts/website-terms-of-use",
+    "contact": {
+      "name": "Commodity Insights API Support",
+      "email": "CI.support@spglobal.com"
+    },
+    "license": {
+      "name": "Proprietary license",
+      "url": "https://www.spglobal.com/platts/en/about-platts/website-terms-of-use"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://api.ci.spglobal.com/market-data"
+    }
+  ],
+  "paths": {
+    "/forward-curve/v3/curve-codes/metadata": {
+      "get": {
+        "tags": [
+          "Forward Curve Metadata"
+        ],
+        "summary": "Forward Curve Retrieval By Curve Code API: Get API field names, descriptions, example values, and parameters available on each field",
+        "operationId": "ForwardCurve Flat Metadata API",
+        "parameters": [
+          {
+            "name": "Field",
+            "in": "query",
+            "description": "List of field(s) that will be part of the API response.\r\n<br>Default: All fields returned by default.<br>Example: curve_code, assessDate",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FordwardCurveMetadataResponseModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/forward-curve/v3/curve-codes": {
+      "get": {
+        "tags": [
+          "Forward Curve Retrieval By Curve Code API"
+        ],
+        "summary": "Retrieve the latest and historical values for a Forward Curves.",
+        "operationId": "ForwardCurve Flat Search API",
+        "parameters": [
+          {
+            "name": "Field",
+            "in": "query",
+            "description": "List of Forward Curve Data field(s) that will be part of the API response. Use this parameter to restrict the number of fields that will be returned in the API response. \r\n\r\n<br>Default: All Forward Curve Data fields returned by default<br>Example: symbol",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Filter",
+            "in": "query",
+            "description": "Filter criteria used to narrow down the API response. Filter criteria are the combinations of a field, an operand, and a value.\r\n<br>Required: curve_code <br>Example: curve_code IN (\"CN002\",\"CN00S\",\"CN06I\") AND assessDate>=\"2021-01-01\" AND assessDate<=\"2022-01-01\" AND bate IN (\"c\",\"u\") <br>Limit 15 curve codes and up to 3 years assessDate range per request. \r\n\r\n<br>See the Use Cases tab for more help",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Sort",
+            "in": "query",
+            "description": "Use this to specify the order in which the data should be ordered. As of now, this can only be sorted by ascending or descending order of symbol,curve_code,derivative_maturity_frequency,derivative_position,contract_label .\r\n\r\n<br>Default: curve_code ASC, assessDate ASC, derivative_maturity_frequency ASC, Deriv derivative_position ASC<br>Example: curve_code:desc",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "description": "Request the number of records to be returned per page in the API response.\r\n\r\n<br>Default: 1000 <br>Maximum: 10000<br>Example: 200",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Page",
+            "in": "query",
+            "description": "Request for a specific page based on the page size and the total number records. Page numbers requested outside the range of paginated records for the specified page size will return an error.\r\n\r\n<br>Default: 1<br>Example: 10",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForwardCurveResponseDataModel"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Field": {
+        "type": "object",
+        "properties": {
+          "field": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "example": {
+            "type": "string",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "isQueryField": {
+            "type": "boolean"
+          },
+          "isSelectField": {
+            "type": "boolean"
+          },
+          "isSortField": {
+            "type": "boolean"
+          },
+          "isFacetField": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "FordwardCurveMetadataResponseModel": {
+        "type": "object",
+        "properties": {
+          "forwardCurveAPI": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Field"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ForwardCurveResponseMetaData": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "page": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "queryTime": {
+            "type": "string",
+            "nullable": true
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ForwardCurveSymbolData": {
+        "type": "object",
+        "properties": {
+          "bate": {
+            "type": "string",
+            "nullable": true
+          },
+          "assessDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "value": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SymbolData": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "nullable": true
+          },
+          "contract_label": {
+            "type": "string",
+            "nullable": true
+          },
+          "derivative_maturity_frequency": {
+            "type": "string",
+            "nullable": true
+          },
+          "derivative_position": {
+            "type": "number",
+            "format": "double"
+          },
+          "notional_contract": {
+            "type": "string",
+            "nullable": true
+          },
+          "roll_date": {
+            "type": "string",
+            "nullable": true
+          },
+          "expiry_date": {
+            "type": "string",
+            "nullable": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ForwardCurveSymbolData"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ForwardCurveResults": {
+        "type": "object",
+        "properties": {
+          "curve_code": {
+            "type": "string",
+            "nullable": true
+          },
+          "curve_name": {
+            "type": "string",
+            "nullable": true
+          },
+          "symbol_data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SymbolData"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ForwardCurveResponseModel": {
+        "type": "object",
+        "properties": {
+          "metadata": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ForwardCurveResponseMetaData"
+              }
+            ],
+            "nullable": true
+          },
+          "results": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ForwardCurveResults"
+              }
+            ],
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ForwardCurveResultModel": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "nullable": true
+          },
+          "curve_code": {
+            "type": "string",
+            "nullable": true
+          },
+          "curve_name": {
+            "type": "string",
+            "nullable": true
+          },
+          "derivative_maturity_frequency": {
+            "type": "string",
+            "nullable": true
+          },
+          "derivative_position": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "roll_date": {
+            "type": "string",
+            "nullable": true
+          },
+          "expiry_date": {
+            "type": "string",
+            "nullable": true
+          },
+          "contract_label": {
+            "type": "string",
+            "nullable": true
+          },
+          "assessDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "value": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "bate": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ForwardCurveResponseDataModel": {
+        "type": "object",
+        "properties": {
+          "metadata": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ForwardCurveResponseMetaData"
+              }
+            ],
+            "nullable": true
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ForwardCurveResultModel"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ErrorModel": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "error": {
+            "type": "string",
+            "nullable": true
+          },
+          "path": {
+            "type": "string",
+            "nullable": true
+          },
+          "cause": {
+            "type": "string",
+            "nullable": true
+          },
+          "correlationid": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "securitySchemes": {
+
+      "Bearer": {
+        "type": "apiKey",
+        "description": "JWT Authorization header using the Bearer scheme. \r\n                      Enter 'Bearer' [space] and then your token in the text input below.\r\n                      Example: 'Bearer 12345abcdef'",
+        "name": "Authorization",
+        "in": "header"
+      }
+    }
+  },
+  "security": [
+
+    {
+      "Bearer": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "Forward Curve Retrieval By Curve Code API",
+      "description": "Retrieve the latest and historical values for a Forward Curves"
+    },
+    {
+      "name": "Forward Curve Metadata",
+      "description": "Get Forward Curves API Metadata"
+    }
+  ]
+}

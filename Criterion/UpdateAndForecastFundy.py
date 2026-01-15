@@ -1,11 +1,21 @@
 """
 Fetches, processes, and forecasts fundamental energy data series.
-Input:
+Input: from criterion research database
 Using:
     1. Criterion/CriterionInfo/database_tables_list.csv (master mapping file)
 Output: 
     1. INFO/Fundy.csv (historical data)
     2. INFO/FundyForecast.csv (forecast data)
+
+conus_demand_items = [
+    'CONUS - Ind',  ## industrial demand
+    'CONUS - ResCom',  ## Residential + Commercial demand
+    'CONUS - Power',  ## power burn
+    'CONUS - L&P',  ## lease & plant fuel
+    "CONUS - P'loss", ## pipeline losses
+    'CONUS - LNGexp' ## LNG exports
+]
+Balance = production - sum(demand items)
 
 This script manages data from a single master mapping file.
 It performs two main tasks:
@@ -84,7 +94,7 @@ def setup_logging():
         format="%(asctime)s - %(levelname)s - %(message)s",
         datefmt="%Y-%m-%d %H:%M:%S",
     )
-
+## database connection function restored from your original script to fix the connection.
 def get_db_engine() -> Optional[Engine]:
     """Loads credentials and returns a SQLAlchemy engine."""
     logging.info("Connecting to the database...")

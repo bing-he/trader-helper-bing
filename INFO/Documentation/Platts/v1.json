@@ -1,0 +1,204 @@
+{
+  "openapi": "3.0.1",
+  "servers": [
+    {
+      "url": "https://api.ci.spglobal.com"
+    }
+  ],
+  "info": {
+    "version": "1.0",
+    "title": "S&P Global Platts: Authentication",
+    "description": "Use this API to generate an access token for your application. The access token returned needs to be used as a header for all other applicable* API requests. To find out if your API needs an access token for authentication, please refer to your Welcome email, or simply click on the Authorize button (like the one on the bottom right-hand corner of this section) for the respective API using the left-pane.",
+    "termsOfService": "https://www.spglobal.com/platts/en/about-platts/website-terms-of-use",
+    "contact": {
+      "name": "Platts API Support",
+      "email": "support@platts.com"
+    },
+    "license": {
+      "name": "Proprietary license",
+      "url": "https://www.spglobal.com/platts/en/about-platts/website-terms-of-use"
+    }
+  },
+  "paths": {
+    "/auth/api": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "required": [
+                  "password",
+                  "username"
+                ],
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "description": "This is the unique identifier for individual users or entities in systems.",
+                    "default": ""
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "This is the confidential string for user authentication and data protection.",
+                    "format": "password",
+                    "default": ""
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "example": {
+                  "token_type": "Bearer",
+                  "expires_in": 3600,
+                  "access_token": "eyJraWQiOiJ0WGRSMUcwWTZueldNOGRfOW1xM05fQm02VjVROFltWHlUR0s1am5Ha253IiwiYWxnIjoiUlMyNTYifQ.eyJ2ZXIiOjEsImp0aSI6IkFULlEtMFFGNS1SZWdwSGpwRU45NHFPY05QdlU1T21xdmsycGRiWEk5RGc4LXMub2FyMmd5M3F4YVI3WGk2c1MwaDciLCJpc3MiOiJodHRwczovL3NlY3VyZS5zaWduaW5wcmV2aWV3LnNwZ2xvYmFsLmNvbS9vYXV0aDIvc3BnbG9iYWwiLCJhdWQiOiJhcGk6Ly9zcGdsb2JhbCIsImlhdCI6MTcwNDk3MzExMywiZXhwIjoxNzA0OTc2NzEzLCJjaWQiOiJQTF9BUElfUExBVEZPUk0iLCJ1aWQiOiIwMHUxdnF0eXhuY045Snp1OTBoOCIsInNjcCI6WyJvZmZsaW5lX2FjY2VzcyIsInByb2ZpbGUiLCJvcGVuaWQiLCJhcGkiXSwiYXV0aF90aW1lIjoxNzA0OTczMTEzLCJzdWIiOiJTVFJVQ19IRUFSRF9BTExAU1BHTE9CQUwuQ09NIiwiY291bnRyeSI6Ik5PVF9GT1VORCIsImxhc3ROYW1lIjoiQVBJIiwiZGlzdHJpYnV0b3JQbGF0Zm9ybSI6IkFQSSIsImZpcnN0TmFtZSI6Ik1BTklLIFdBVFRBTVdBUiIsIkVtYWlsIjoiU1RSVUNfSEVBUkRfQUxMQFNQR0xPQkFMLkNPTSIsIkdST1VQUyI6WyJFdmVyeW9uZSIsIkdSUF9PS1RBX1NQR19JTlRFUk5BTF9VU0VSUyJdLCJTUF9TU09fQVBQUyI6WyJQTEFQSSJdLCJjbGllbnQiOiJQTF9BUElfUExBVEZPUk0iLCJjb21wYW55IjpbXX0.L096m_RCXPV43gryyrdDu4F29Is2JiSA176Xp_X-aV72Ow4IuDCHsyyh-B3eKSG9qNe_NJr8sqKzskrT6jxBi5gRtAWfDOskpQobW5fk-hMOWWcAbUxFKNR0T_svUhWVw-cKtcxw_KcjYtilO63BJowVCfB1B9tWDPjUZALsT-Xd7o9RN1or16bFtQyEaOcQm-qfCmJhWNGano5w9xYpus3K0DaECnkO48T7v327blcj4MCa4sT1U800HE8gw9yE96zFpDYTKAHd-t2QgAshdTh9c27ccg-gosGGmpRbCt_aTtQonR2DA9FuuP8lztBdpSAevYxa7m88ME8SuAxw5w",
+                  "scope": "offline_access profile openid api",
+                  "refresh_token": "oe0NzmM8nRqhPJHWuAvqy_ohjFKpEw4qJ_7wtkV6SJ0",
+                  "id_token": "eyJraWQiOiJ0WGRSMUcwWTZueldNOGRfOW1xM05fQm02VjVROFltWHlUR0s1am5Ha253IiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiIwMHUxdnF0eXhuY045Snp1OTBoOCIsIm5hbWUiOiJNQU5JSyBXQVRUQU1XQVIgIEFQSSIsInZlciI6MSwiaXNzIjoiaHR0cHM6Ly9zZWN1cmUuc2lnbmlucHJldmlldy5zcGdsb2JhbC5jb20vb2F1dGgyL3NwZ2xvYmFsIiwiYXVkIjoiUExfQVBJX1BMQVRGT1JNIiwiaWF0IjoxNzA0OTczMTEzLCJleHAiOjE3MDQ5NzY3MTMsImp0aSI6IklELkxlWllGcS1mWktLMFZnZjVCNXZ0ZlAwTlY1NEhIcExEOTRCR1Y0aXZfaDQiLCJhbXIiOlsicHdkIl0sImlkcCI6IjAwbzE2cnR0dmhuZklxUDF2MGg4IiwicHJlZmVycmVkX3VzZXJuYW1lIjoiU1RSVUNfSEVBUkRfQUxMQFNQR0xPQkFMLkNPTSIsImF1dGhfdGltZSI6MTcwNDk3MzExMywiYXRfaGFzaCI6IlFKbHZCNldUS09Gbm1hMUhkaHBVSGciLCJzcEF0dHIyIjpbXSwiVXNlcklEIjoiU1RSVUNfSEVBUkRfQUxMQFNQR0xPQkFMLkNPTSIsInNwQXR0cjEiOltdLCJGaXJzdE5hbWUiOiJNQU5JSyBXQVRUQU1XQVIiLCJzcEFwcEdyb3VwIjpbIlBMQVBJIl0sIkxhc3ROYW1lIjoiQVBJIn0.CFNj5qysqHXC6ZZbCJeQThtp3ZjUmeU-mBLCLwttoHu3DjXoNIxg2B0_Qwu5dg48xm57_XFvJGWDS9IxFJ0ohVpBq5kzZySl4G_VLIDXjVq9COMtjOTO_LKIQPy5VGFjJlcIzS6fp3oVobA8CLQWORdGJFb8D6EUdAz-ZAOh6iMIKnvTsl9VNukOgF5jSDd0bm-Vc2K-tStL7K4mvmCjpJFvl_wV5Qj5htlX0PdQLR0B2eS5A7TDgOJwI6XQmBLkJ7QgBXCugN9oKT3epoanx_OCJ2L29ot8uLks1Opot-mi8Pt4FMuk83nvWsNuZafxn0R5f8Iw5Bv7TUtrLo-Lbg"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "invalid_grant",
+                  "error_description": "The credentials provided were invalid."
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Unauthorized"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded",
+            "content": {
+              "application/json": {
+                "example": {
+                  "timestamp": "11/22/2021 3:58:33 PM",
+                  "status": 429,
+                  "error": "Unauthorized",
+                  "path": "/auth/api",
+                  "cause": "Rate limit exceeded.",
+                  "X-Request-ID": "daddadca-fbc1-406c-a879-c813a10c6481"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Generate an Access token using User credentials.",
+        "tags": [
+          "Token Generation API"
+        ]
+      }
+    },
+    "/auth/api/refresh": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "required": [
+                  "refresh_token"
+                ],
+                "type": "object",
+                "properties": {
+                  "refresh_token": {
+                    "type": "string",
+                    "description": "A refresh token is a special token that is used to obtain additional access tokens. This allows you to have short-lived access tokens without having to collect credentials every time one expires.",
+                    "default": ""
+                  }
+                }
+              },
+              "encoding": {
+                "refresh_token": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "example": {
+                  "token_type": "Bearer",
+                  "expires_in": 3600,
+                  "access_token": "eyJraWQiOiJ0WGRSMUcwWTZueldNOGRfOW1xM05fQm02VjVROFltWHlUR0s1am5Ha253IiwiYWxnIjoiUlMyNTYifQ.eyJ2ZXIiOjEsImp0aSI6IkFULnZidWNxOF91UzVielprMTAxZTJoc2FwZTBuSDhFVE1DY1k4TklVVzFrQVkub2FyMmd5M3F4YVI3WGk2c1MwaDciLCJpc3MiOiJodHRwczovL3NlY3VyZS5zaWduaW5wcmV2aWV3LnNwZ2xvYmFsLmNvbS9vYXV0aDIvc3BnbG9iYWwiLCJhdWQiOiJhcGk6Ly9zcGdsb2JhbCIsImlhdCI6MTcwNDk3NDgxNCwiZXhwIjoxNzA0OTc4NDE0LCJjaWQiOiJQTF9BUElfUExBVEZPUk0iLCJ1aWQiOiIwMHUxdnF0eXhuY045Snp1OTBoOCIsInNjcCI6WyJwcm9maWxlIiwib2ZmbGluZV9hY2Nlc3MiLCJvcGVuaWQiLCJhcGkiXSwiYXV0aF90aW1lIjoxNzA0OTczMTEzLCJzdWIiOiJTVFJVQ19IRUFSRF9BTExAU1BHTE9CQUwuQ09NIiwiY291bnRyeSI6Ik5PVF9GT1VORCIsImxhc3ROYW1lIjoiQVBJIiwiZGlzdHJpYnV0b3JQbGF0Zm9ybSI6IkFQSSIsImZpcnN0TmFtZSI6Ik1BTklLIFdBVFRBTVdBUiIsIkVtYWlsIjoiU1RSVUNfSEVBUkRfQUxMQFNQR0xPQkFMLkNPTSIsIkdST1VQUyI6WyJFdmVyeW9uZSIsIkdSUF9PS1RBX1NQR19JTlRFUk5BTF9VU0VSUyJdLCJTUF9TU09fQVBQUyI6WyJQTEFQSSJdLCJjbGllbnQiOiJQTF9BUElfUExBVEZPUk0iLCJjb21wYW55IjpbXX0.fSnVhG1K1Xe-PuFyPnUgIyvJ-X_mPcYJj878eQrI21r7nyV6CoaGQ5M7eTUR33c_NVmA_-AeC3oOD-Vqo6hElZ3zRkXkXxnaMA_uc-6bdBiFkQKspoxF-_uH6g8GTywJUU6wwQp6bnTeuIXD24FNYHDudQS7RdFZLY6KO8T8LnYlE3f1VtAytErUEEUZ3OBn875Y4HzGBueAlIj4fN34fAOXl2A-2UPeRCEMwo5zoI6ctSALEyWRGGFbqvb3IzW5-RHF12L67ToSXTdl-m0vESbWbiCJ4-XHH9dzcLj4z0rrCTbHJBGUr7hbFt6hS7jCnLnlyVc_I3WeDbOiSUMlRg",
+                  "scope": "profile offline_access openid api",
+                  "refresh_token": "oe0NzmM8nRqhPJHWuAvqy_ohjFKpEw4qJ_7wtkV6SJ0",
+                  "id_token": "eyJraWQiOiJ0WGRSMUcwWTZueldNOGRfOW1xM05fQm02VjVROFltWHlUR0s1am5Ha253IiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiIwMHUxdnF0eXhuY045Snp1OTBoOCIsIm5hbWUiOiJNQU5JSyBXQVRUQU1XQVIgIEFQSSIsInZlciI6MSwiaXNzIjoiaHR0cHM6Ly9zZWN1cmUuc2lnbmlucHJldmlldy5zcGdsb2JhbC5jb20vb2F1dGgyL3NwZ2xvYmFsIiwiYXVkIjoiUExfQVBJX1BMQVRGT1JNIiwiaWF0IjoxNzA0OTc0ODE0LCJleHAiOjE3MDQ5Nzg0MTQsImp0aSI6IklELkFaZVJFVkk4dUlXNHhJZ3Jhd1lGRE9kczVVSWF4V2FlU0FoM1FsM2NZNlEiLCJhbXIiOlsicHdkIl0sImlkcCI6IjAwbzE2cnR0dmhuZklxUDF2MGg4IiwicHJlZmVycmVkX3VzZXJuYW1lIjoiU1RSVUNfSEVBUkRfQUxMQFNQR0xPQkFMLkNPTSIsImF1dGhfdGltZSI6MTcwNDk3MzExMywiYXRfaGFzaCI6Im5PRHhhV29UVEJxVTJ1TTR0U3FFYUEiLCJzcEF0dHIyIjpbXSwiVXNlcklEIjoiU1RSVUNfSEVBUkRfQUxMQFNQR0xPQkFMLkNPTSIsInNwQXR0cjEiOltdLCJGaXJzdE5hbWUiOiJNQU5JSyBXQVRUQU1XQVIiLCJzcEFwcEdyb3VwIjpbIlBMQVBJIl0sIkxhc3ROYW1lIjoiQVBJIn0.EC90kCaT1cHEiokmn3udK1eINQ8d_dRhvHiMmLJGCBLjs4R5OYzyu8KidXUtWkk2HoQWDI42dLyMoUKSF7CRRYtbko2Xb0r9irmCyVYBZ3eIRhqt_iaCbmNykPIzQPXGEIrt817kNyUAYDmzpxpXAAe8_-b3OKpusKw9lvX0HqrB9-mBjSQnN8xh4P6Nx7xwgVYgGGZkZykX8aVRB4dPc7HyFVSVCdHliDZdayD5nFG234V_K-BP1kiF7QIO6gzy03Qbj_yOCkyzdYGnKV61b4nJtRB-GOhWAH4JhrtY6tKTIZFjhNuj3MLNhL3x90kmAlphTYINs5l_QgVV-fUCJg"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "invalid_grant",
+                  "error_description": "The refresh token is invalid or expired."
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Unauthorized"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded",
+            "content": {
+              "application/json": {
+                "example": {
+                  "timestamp": "11/22/2021 3:58:33 PM",
+                  "status": 429,
+                  "error": "Unauthorized",
+                  "path": "/auth/api/refresh",
+                  "cause": "Rate limit exceeded.",
+                  "X-Request-ID": "daddadca-fbc1-406c-a879-c813a10c6481"
+                }
+              }
+            }
+          }
+        },
+        "summary": "A refresh token gets you new access tokens without re-entering credentials.",
+        "tags": [
+          "Token Generation API"
+        ]
+      }
+    }
+  },
+  "tags": [
+    {
+      "description": "Generate an Access token",
+      "name": "Token Generation API"
+    }
+  ],
+  "components": {
+  }
+}

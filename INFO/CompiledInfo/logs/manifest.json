@@ -1,0 +1,20 @@
+{
+  "run_ts": "2026-01-10T13:04:47",
+  "inputs": {
+    "CriterionLNGHist.csv": "INFO/CriterionLNGHist.csv",
+    "CriterionLNGForecast.csv": "INFO/CriterionLNGForecast.csv",
+    "CriterionExtra.csv": "INFO/CriterionExtra.csv",
+    "CriterionExtraForecast.csv": "INFO/CriterionExtraForecast.csv",
+    "Fundy.csv": "INFO/Fundy.csv",
+    "FundyForecast.csv": "INFO/FundyForecast.csv",
+    "PlattsPowerFundy.csv": "INFO/PlattsPowerFundy.csv",
+    "PowerPrices.csv": "INFO/PowerPrices.csv",
+    "WEATHER.csv": "INFO/WEATHER.csv",
+    "WEATHERforecast.csv": "INFO/WEATHERforecast.csv"
+  },
+  "outputs": {
+    "summary_statistics": "CompiledInfo\\logs\\summary_statistics.csv",
+    "data_dictionary": "CompiledInfo\\logs\\data_dictionary.csv"
+  },
+  "qa": {}
+}

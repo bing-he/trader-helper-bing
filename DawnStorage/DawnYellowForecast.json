@@ -1,0 +1,36 @@
+{
+  "date_asof": "2025-08-24",
+  "model_kind": "GradientBoosting",
+  "auc_binary": 0.6071428571428572,
+  "n_events": 11,
+  "trend_flow": 523640.0,
+  "last_storage_total": 212.0,
+  "prob_tomorrow_yellow_turn_on": 0.0036191758611687436,
+  "prob_tomorrow_inj_turn_on": 0.00271438189248358,
+  "prob_tomorrow_wd_turn_on": 0.0009047939641611935,
+  "prob_week_yellow_turn_on": 0.028619175861168744,
+  "prob_week_inj_turn_on": 0.02146438186904608,
+  "prob_week_wd_turn_on": 0.007154793956348693,
+  "top_features": [
+    [
+      "WithdrawalStress",
+      0.0
+    ],
+    [
+      "FlowStd_28",
+      0.0
+    ],
+    [
+      "StoragePos_lag7",
+      0.0
+    ],
+    [
+      "FlowMean_3",
+      0.0
+    ],
+    [
+      "FlowMean_5",
+      0.0
+    ]
+  ]
+}

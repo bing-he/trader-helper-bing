@@ -1,0 +1,488 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "version": "3.0",
+    "title": "S&P Global Platts: Platts Forward Curves",
+    "description": "This includes all forward curves in the Platts database including the latest and historical values for the Curves.  Note that this includes products under many names, including PFC, M2M, FtS, and exchange data.",
+    "termsOfService": "https://www.spglobal.com/platts/en/about-platts/website-terms-of-use",
+    "contact": {
+      "name": "Platts API Support",
+      "email": "support@platts.com"
+    },
+    "license": {
+      "name": "Proprietary license",
+      "url": "https://www.spglobal.com/platts/en/about-platts/website-terms-of-use"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://api.ci.spglobal.com/market-data/reference-data"
+    }
+  ],
+  "paths": {
+    "/v3/forward-curve/metadata": {
+      "get": {
+        "tags": [
+          "Forward Curve Metadata"
+        ],
+        "summary": "Forward Curve Search API: Get API field names, descriptions, example values, and parameters available on each field",
+        "parameters": [
+          {
+            "name": "field",
+            "in": "query",
+            "description": "List of field(s) that will be part of the API response.\r\n<br>Default: All fields returned by default.<br>Example: curve_code, description",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MetadataResponseModel"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {
+                  "timestamp": "4/13/2022 4:24:32 PM",
+                  "status": 401,
+                  "error": "Unauthorized",
+                  "path": "/v3/forward-curve/metadata",
+                  "Request-ID": "daddadca-fbc1-406c-a879-c813a10c6481"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {
+                  "timestamp": "4/13/2022 4:24:32 PM",
+                  "status": 422,
+                  "error": "UnprocessableEntity",
+                  "path": "/v3/forward-curve/metadata",
+                  "cause": "select operation is not allowed on these fields: schema",
+                  "Request-ID": "2db171cd-70cd-4fda-a77f-81a31566c251"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {
+                  "timestamp": "4/13/2022 4:24:32 PM",
+                  "status": 400,
+                  "error": "BadRequest",
+                  "path": "/v3/forward-curve/metadata",
+                  "cause": "Parse Error: There is a problem in parsing the request",
+                  "Request-ID": "17e8e36a-95d2-453d-8d8c-45c9b38fb93f"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/forward-curve/search": {
+      "get": {
+        "tags": [
+          "Forward Curve Search API"
+        ],
+        "summary": "Search for curve codes containing specific reference data values",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "description": "Use this parameter for filtering results based on a keyword search with one or more search expressions. \r\n<br>Example: Brent Financial",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Field",
+            "in": "query",
+            "description": "Use this parameter to specify the fields to be returned in the API response. \r\n<br>Default: All available reference data fields returned by default<br>Example: UOM, Currency, Description, Commodity",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Filter",
+            "in": "query",
+            "description": "Filter criteria used to narrow down the API response. Filter criteria are the combinations of a field, an operand, and a value.\r\n<br>Example: commodity:\"crude oil\"  <br>See the Use Cases tab for more help",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Sort",
+            "in": "query",
+            "description": "Request to sort API response by a supported reference data field ascending/descending. See Metadata endpoint for supported fields.\r\n<br>Default: relevancy <br>Example: curve_code:asc,description:desc",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "description": "Request the number of records to be returned per page in the API response.\r\n\r\n<br>Default: 100 <br>Maximum: 1000<br>Example: 200",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Page",
+            "in": "query",
+            "description": "Request for a specific page based on the page size and the total number records. Page numbers requested outside the range of paginated records for the specified page size will return an error. \r\n<br>Default: 1<br>Example: 10",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Facet.Field",
+            "in": "query",
+            "description": "Use this parameter to provide a list of distinct values for a given search result and the number of records containing that value.\r\n<br>Default: none<br> Example: delivery_region",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "subscribed_only",
+            "in": "query",
+            "description": "Use this parameter to return reference data based on your market data subscriptions. If set to FALSE, then all reference data is returned regardless of your subscriptions.\r\n<br> Example: TRUE<br>Default: TRUE",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForwardCurveDataResponseModelExample"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {
+                  "timestamp": "4/13/2022 4:24:32 PM",
+                  "status": 401,
+                  "error": "Unauthorized",
+                  "path": "/v3/forward-curve/search",
+                  "Request-ID": "daddadca-fbc1-406c-a879-c813a10c6481"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {
+                  "timestamp": "4/13/2022 4:24:32 PM",
+                  "status": 422,
+                  "error": "UnprocessableEntity",
+                  "path": "/v3/forward-curve/search",
+                  "cause": "select operation is not allowed on these fields: schema",
+                  "Request-ID": "2db171cd-70cd-4fda-a77f-81a31566c251"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {
+                  "timestamp": "2020-12-30T11:30:07.9489113Z",
+                  "status": 403,
+                  "error": "Forbidden",
+                  "path": "/v3/forward-curve/search",
+                  "cause": "user is not permitted to access the request. filter is not allowed on these Market Codes: AMDS",
+                  "Request-ID": "17e8e36a-95d2-453d-8d8c-45c9b38fb93f"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {
+                  "timestamp": "4/13/2022 4:24:32 PM",
+                  "status": 400,
+                  "error": "BadRequest",
+                  "path": "/v3/forward-curve/search",
+                  "cause": "Field: alertHeadline is not supported for Filter operation",
+                  "Request-ID": "17e8e36a-95d2-453d-8d8c-45c9b38fb93f"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Metadata": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer",
+            "description": "count",
+            "format": "int32"
+          },
+          "pagesize": {
+            "type": "integer",
+            "description": "pagesize",
+            "format": "int32"
+          },
+          "page": {
+            "type": "integer",
+            "description": "page",
+            "format": "int32"
+          },
+          "total_pages": {
+            "type": "integer",
+            "description": "total_pages",
+            "format": "int32"
+          },
+          "query_time": {
+            "type": "string",
+            "description": "query_time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Metadata"
+      },
+      "Result": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ErrorModel": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "error": {
+            "type": "string",
+            "nullable": true
+          },
+          "path": {
+            "type": "string",
+            "nullable": true
+          },
+          "cause": {
+            "type": "string",
+            "nullable": true
+          },
+          "correlationid": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Fields": {
+        "type": "object",
+        "properties": {
+          "field": {
+            "type": "string",
+            "description": "FieldName",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "description": "Description",
+            "nullable": true
+          },
+          "example": {
+            "type": "string",
+            "description": "Example",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "description": "Type",
+            "nullable": true
+          },
+          "isQueryField": {
+            "type": "boolean",
+            "description": "IsQueryField"
+          },
+          "isSelectField": {
+            "type": "boolean",
+            "description": "IsSelectField"
+          },
+          "isSortField": {
+            "type": "boolean",
+            "description": "IsSortField"
+          },
+          "isFacetField": {
+            "type": "boolean",
+            "description": "isFacetField"
+          },
+          "isFilterField": {
+            "type": "boolean",
+            "description": "isFilterField"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Field"
+      },
+      "MetadataResponseModel": {
+        "type": "object",
+        "properties": {
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Fields"
+            },
+            "description": "results",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "MetadataResponseModel"
+      },
+      "ForwardCurveSearchMetadata": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer",
+            "description": "count",
+            "format": "int32"
+          },
+          "pagesize": {
+            "type": "integer",
+            "description": "pagesize",
+            "format": "int32"
+          },
+          "page": {
+            "type": "integer",
+            "description": "page",
+            "format": "int32"
+          },
+          "total_pages": {
+            "type": "integer",
+            "description": "total_pages",
+            "format": "int32"
+          },
+          "query_time": {
+            "type": "string",
+            "description": "query_time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ForwardCurveDataResponseModelExample": {
+        "type": "object",
+        "properties": {
+          "metdata": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ForwardCurveSearchMetadata"
+              }
+            ],
+            "description": "metadata",
+            "nullable": true
+          },
+          "facets": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "facets",
+            "nullable": true
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Result"
+            },
+            "description": "results",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "securitySchemes": {
+
+      "Bearer": {
+        "type": "apiKey",
+        "description": "JWT Authorization header using the Bearer scheme. \r\n                      Enter 'Bearer' [space] and then your token in the text input below.\r\n                      Example: 'Bearer 12345abcdef'",
+        "name": "Authorization",
+        "in": "header"
+      }
+    }
+  },
+  "security": [
+    {
+      "Bearer": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "Forward Curve Metadata",
+      "description": "Get Forward Curves API Metadata"
+    },
+    {
+      "name": "Forward Curve Search API",
+      "description": "Search for Forward Curves"
+    }
+  ]
+}

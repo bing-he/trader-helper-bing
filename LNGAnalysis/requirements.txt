@@ -1,0 +1,6 @@
+pandas>=2.1.0
+numpy>=1.25.0
+plotly>=5.21.0
+python-dotenv>=1.0.0
+google-generativeai>=0.3.0
+openai>=1.6.0

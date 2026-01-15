@@ -1,0 +1,120 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&display=swap');
+    :root {
+      --ink: #0f1b2d;
+      --muted: #51606f;
+      --accent: #0b7ba7;
+      --panel: #ffffff;
+      --shadow: 0 10px 35px rgba(12, 36, 66, 0.12);
+      --border: #e7edf4;
+    }
+    body {
+      font-family: 'Space Grotesk', 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #f9fbff 0%, #eef2f8 100%);
+      color: var(--ink);
+    }
+    .page {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 28px 32px 48px;
+    }
+    h1 { margin: 0 0 6px; letter-spacing: -0.5px; }
+    h2 { margin: 24px 0 12px; color: var(--accent); letter-spacing: -0.3px; }
+    h3 { margin: 12px 0 8px; color: var(--ink); }
+    .meta { color: var(--muted); margin-bottom: 18px; }
+    .section { margin-bottom: 28px; }
+    .narrative { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; box-shadow: var(--shadow); }
+    .chart-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+    .chart-card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 10px; box-shadow: var(--shadow); }
+    .chart-card img { width: 100%; border-radius: 8px; display: block; }
+    .analog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 14px; }
+    .table-card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow); padding: 12px; }
+    .table-title { font-weight: 600; margin-bottom: 8px; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid var(--border); padding: 6px 8px; text-align: right; font-size: 13px; }
+    th { background: #f2f6fb; color: var(--ink); }
+    td:first-child, th:first-child { text-align: left; }
+    tr:nth-child(even) td { background: #fafbfd; }
+    .muted { color: var(--muted); }
+    .forward-section { margin-top: 8px; }
+    .forward-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 14px; }
+    .forward-card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow); padding: 10px; }
+    .forward-card img { width: 100%; border-radius: 8px; display: block; }
+    @media (max-width: 900px) {
+      .chart-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <h1>Curve Your Enthusiasm</h1>
+    <div class="meta">Generated {{ generated_on }} | {{ methodology_note }}</div>
+
+    <div class="section">
+      <h2>Price &amp; Positioning</h2>
+      <p class="muted">Dashed horizontal lines mark statistically derived support/resistance levels from clustered swing highs/lows; they highlight thresholds where the strip, 1yr spread, front-month, and seasonal contracts have historically stalled or reversed.</p>
+      <div class="chart-grid">
+        {% for chart in primary_price_charts %}
+          <div class="chart-card">
+            <img src="{{ chart }}" alt="{{ chart }}">
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Forecasted Market Moves</h2>
+      <div class="narrative">
+        {{ forecast_html | safe }}
+      </div>
+    </div>
+
+    {% if forward_charts %}
+    <div class="section forward-section">
+      <h2>Forward Curve Comparison</h2>
+      <p class="muted">
+        Forward curves show the market's pricing of future delivery months. Comparing several recent curves highlights how sentiment shifted; normalizing to the prompt month makes the curve's steepness and seasonal bumps easier to spot.
+      </p>
+      <div class="forward-grid">
+        {% for chart in forward_charts %}
+          <div class="forward-card">
+            <img src="{{ chart }}" alt="{{ chart }}">
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    {% if spread_charts %}
+    <div class="section">
+      <h2>NYMEX Spreads</h2>
+      {% for chart in spread_charts %}
+        <div class="chart-card" style="width:100%">
+          <img src="{{ chart }}" alt="{{ chart }}">
+        </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if secondary_charts %}
+    <div class="section">
+      <h2>Additional Context</h2>
+      <div class="chart-grid">
+        {% for chart in secondary_charts %}
+          <div class="chart-card">
+            <img src="{{ chart }}" alt="{{ chart }}">
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    <script type="application/json" id="market-data">{{ data_json }}</script>
+  </div>
+</body>
+</html>

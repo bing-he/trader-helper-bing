@@ -1,0 +1,3828 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "S&P Global Platts: Energy Price Forecast (Beta) 1.0",
+    "description": "The Energy Price Forecast API provides a comprehensive view of S&P Global Platts latest energy price forecasts and historical monthly/yearly averages. Short-term forecasts are available up to 18-months out on a monthly granularity and long-term forecasts are available on a yearly granularity up to 30-years out. The Energy Price Forecast API also gives users access to historical forecasts to easily compare how Platts' outlook has evolved over time.",
+    "termsOfService": "https://www.spglobal.com/platts/en/about-platts/website-terms-of-use",
+    "contact": {
+      "name": "Support",
+      "email": "support@platts.com"
+    },
+    "license": {
+      "name": "Proprietary license",
+      "url": "https://www.spglobal.com/platts/en/about-platts/website-terms-of-use"
+    },
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.ci.spglobal.com"
+    }
+  ],
+  "paths": {
+    "/energy-price-forecast/v1/commodities": {
+      "get": {
+        "tags": [
+          "Metadata Endpoints"
+        ],
+        "summary": "list of commodities associated with prices",
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "Restricts the set of items returned. For instance, a user can filter on specific commodities to retrieve the relevant commodityId. Example: commodityName: \"LNG\" OR commodityName: \"Isobutane\" will return the associated commodityIds.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "field",
+            "in": "query",
+            "description": "List of data field(s) that will be part of the response. Using this parameter, the user can restrict the number of fields that will be part of the service response. If the parameter is not passed, the response will contain all of the response data.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Request for a specific page based on the page size and the total number records. Page numbers requested outside the range of paginated records for the specified page size will return an error.\r\n            \r\n<br>Default: 1<br>Example: 10",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Request the number of records to be returned per page in the API response.\r\n            \r\n<br>Default: 100 <br>Maximum: 1000<br>Example: 200",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Request to sort API response by field(s) ascending/descending.\r\n            \r\n<br>Example: name:desc",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "groupBy",
+            "in": "query",
+            "description": "Request to group API response by the fields listed",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommodityIResponseModel"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/energy-price-forecast/v1/categories": {
+      "get": {
+        "tags": [
+          "Metadata Endpoints"
+        ],
+        "summary": "list of commodity groups supported based on user's subscription",
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "Restricts the set of items returned. For instance, a user can filter on specific categoryNames to retrieve the relevant categoryIds. Example: categoryName: \"Oil\" OR categoryName: \"Environmental Commodities\" will return the associated categoryIds. ",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "field",
+            "in": "query",
+            "description": "List of data field(s) that will be part of the response. Using this parameter, the user can restrict the number of fields that will be part of the service response. If the parameter is not passed, the response will contain all of the response data.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Request for a specific page based on the page size and the total number records. Page numbers requested outside the range of paginated records for the specified page size will return an error.\r\n            \r\n<br>Default: 1<br>Example: 10",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Request the number of records to be returned per page in the API response.\r\n            \r\n<br>Default: 100 <br>Maximum: 1000<br>Example: 200",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Request to sort API response by field(s) ascending/descending.\r\n            \r\n<br>Example: name:desc",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "groupBy",
+            "in": "query",
+            "description": "Request to group API response by the fields listed",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CategoryIResponseModel"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {
+                  "timestamp": "2020-12-30T11:36:56.2763814Z",
+                  "status": 400,
+                  "error": "BadRequest",
+                  "path": "/v1/categories",
+                  "cause": "Id is a required field",
+                  "X-Request-ID": "2db171cd-70cd-4fda-a77f-81a31566c251"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {
+                  "timestamp": "2020-12-30T11:23:21.7794735Z",
+                  "status": 401,
+                  "error": "Unauthorized",
+                  "path": "/v1/categories",
+                  "X-Request-ID": "daddadca-fbc1-406c-a879-c813a10c6481"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {
+                  "timestamp": "2020-12-30T11:30:07.9489113Z",
+                  "status": 403,
+                  "error": "Forbidden",
+                  "path": "/v1/categories",
+                  "cause": "user is not permitted to access the request",
+                  "X-Request-ID": "17e8e36a-95d2-453d-8d8c-45c9b38fb93f"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {
+                  "timestamp": "2021-09-20T13:33:00.7895728Z",
+                  "status": 500,
+                  "error": "InternalServerError",
+                  "path": "/v1/categories",
+                  "cause": "The string argument 'connectionString' cannot be empty.",
+                  "X-Request-ID": "2db171cd-70cd-4fda-a77f-81a31566c251"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/energy-price-forecast/v1/currencies": {
+      "get": {
+        "tags": [
+          "Metadata Endpoints"
+        ],
+        "summary": "provides a collection of currencies available in the dataset",
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "Filter criteria used to narrow down the API response. Using this parameter, user can retrieve the subset of the data set.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "field",
+            "in": "query",
+            "description": "List of data field(s) that will be part of the response. Using this parameter, the user can restrict the number of fields that will be part of the service response. If the parameter is not passed, the response will contain all of the response data.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Request for a specific page based on the page size and the total number records. Page numbers requested outside the range of paginated records for the specified page size will return an error.\r\n            \r\n<br>Default: 1<br>Example: 10",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Request the number of records to be returned per page in the API response.\r\n            \r\n<br>Default: 100 <br>Maximum: 1000<br>Example: 200",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Request to sort API response by field(s) ascending/descending.\r\n            \r\n<br>Example: name:desc",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "groupBy",
+            "in": "query",
+            "description": "Request to group API response by the fields listed",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CurrencyIResponseModel"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {
+                  "timestamp": "2020-12-30T11:36:56.2763814Z",
+                  "status": 400,
+                  "error": "BadRequest",
+                  "path": "/v1/currencies",
+                  "cause": "Id is a required field",
+                  "X-Request-ID": "2db171cd-70cd-4fda-a77f-81a31566c251"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {
+                  "timestamp": "2020-12-30T11:23:21.7794735Z",
+                  "status": 401,
+                  "error": "Unauthorized",
+                  "path": "/v1/currencies",
+                  "X-Request-ID": "daddadca-fbc1-406c-a879-c813a10c6481"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {
+                  "timestamp": "2020-12-30T11:30:07.9489113Z",
+                  "status": 403,
+                  "error": "Forbidden",
+                  "path": "/v1/currencies",
+                  "cause": "user is not permitted to access the request",
+                  "X-Request-ID": "17e8e36a-95d2-453d-8d8c-45c9b38fb93f"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {
+                  "timestamp": "2021-09-20T13:33:00.7895728Z",
+                  "status": 500,
+                  "error": "InternalServerError",
+                  "path": "/v1/currencies",
+                  "cause": "The string argument 'connectionString' cannot be empty.",
+                  "X-Request-ID": "2db171cd-70cd-4fda-a77f-81a31566c251"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/energy-price-forecast/v1/delivery-regions": {
+      "get": {
+        "tags": [
+          "Metadata Endpoints"
+        ],
+        "summary": "list of delivery regions associated with prices",
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "Filter criteria used to narrow down the API response. Using this parameter, user can retrieve the subset of the data set. ",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "field",
+            "in": "query",
+            "description": "List of data field(s) that will be part of the response. Using this parameter, the user can restrict the number of fields that will be part of the service response. If the parameter is not passed, the response will contain all of the response data.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Request for a specific page based on the page size and the total number records. Page numbers requested outside the range of paginated records for the specified page size will return an error.\r\n            \r\n<br>Default: 1<br>Example: 10",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Request the number of records to be returned per page in the API response.\r\n            \r\n<br>Default: 100 <br>Maximum: 1000<br>Example: 200",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Request to sort API response by field(s) ascending/descending.\r\n            \r\n<br>Example: name:desc",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "groupBy",
+            "in": "query",
+            "description": "Request to group API response by the fields listed",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeliveryRegionIResponseModel"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/energy-price-forecast/v1/groups": {
+      "get": {
+        "tags": [
+          "Metadata Endpoints"
+        ],
+        "summary": "list of price groups supported in the dataset based on user's subscription",
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "Filter criteria used to narrow down the API response. Using this parameter, user can retrieve the subset of the data set. ",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "field",
+            "in": "query",
+            "description": "List of data field(s) that will be part of the response. Using this parameter, the user can restrict the number of fields that will be part of the service response. If the parameter is not passed, the response will contain all of the response data.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Request for a specific page based on the page size and the total number records. Page numbers requested outside the range of paginated records for the specified page size will return an error.\r\n            \r\n<br>Default: 1<br>Example: 10",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Request the number of records to be returned per page in the API response.\r\n            \r\n<br>Default: 100 <br>Maximum: 1000<br>Example: 200",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Request to sort API response by field(s) ascending/descending.\r\n            \r\n<br>Example: name:desc",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "groupBy",
+            "in": "query",
+            "description": "Request to group API response by the fields listed",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PriceGroupIResponseModel"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {
+                  "timestamp": "2020-12-30T11:36:56.2763814Z",
+                  "status": 400,
+                  "error": "BadRequest",
+                  "path": "/v1/groups",
+                  "cause": "Id is a required field",
+                  "X-Request-ID": "2db171cd-70cd-4fda-a77f-81a31566c251"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {
+                  "timestamp": "2020-12-30T11:23:21.7794735Z",
+                  "status": 401,
+                  "error": "Unauthorized",
+                  "path": "/v1/groups",
+                  "X-Request-ID": "daddadca-fbc1-406c-a879-c813a10c6481"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {
+                  "timestamp": "2020-12-30T11:30:07.9489113Z",
+                  "status": 403,
+                  "error": "Forbidden",
+                  "path": "/v1/groups",
+                  "cause": "user is not permitted to access the request",
+                  "X-Request-ID": "17e8e36a-95d2-453d-8d8c-45c9b38fb93f"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {
+                  "timestamp": "2021-09-20T13:33:00.7895728Z",
+                  "status": 500,
+                  "error": "InternalServerError",
+                  "path": "/v1/groups",
+                  "cause": "The string argument 'connectionString' cannot be empty.",
+                  "X-Request-ID": "2db171cd-70cd-4fda-a77f-81a31566c251"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/energy-price-forecast/v1/prices-long-term": {
+      "get": {
+        "tags": [
+          "Data Endpoints"
+        ],
+        "summary": "Platts' latest long-term price forecasts and historical prices provided on a yearly granularity",
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "Filter criteria used to narrow down the API response. Using this parameter, user can retrieve the subset of the data set. For instance, user can return data for a specific price group and year. Example: groupname: “Crude” AND year: 2028.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "field",
+            "in": "query",
+            "description": "List of data field(s) that will be part of the response. Using this parameter, the user can restrict the number of fields that will be part of the service response. If the parameter is not passed, the response will contain all of the response data.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Request for a specific page based on the page size and the total number records. Page numbers requested outside the range of paginated records for the specified page size will return an error.\r\n            \r\n<br>Default: 1<br>Example: 10",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Request the number of records to be returned per page in the API response.\r\n            \r\n<br>Default: 100 <br>Maximum: 1000<br>Example: 200",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Request to sort API response by field(s) ascending/descending.\r\n            \r\n<br>Example: name:desc",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "groupBy",
+            "in": "query",
+            "description": "Request to group API response by the fields listed",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LongTermPriceIResponseModel"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {
+                  "timestamp": "2020-12-30T11:36:56.2763814Z",
+                  "status": 400,
+                  "error": "BadRequest",
+                  "path": "/v1/prices-long-term",
+                  "cause": "Id is a required field",
+                  "X-Request-ID": "2db171cd-70cd-4fda-a77f-81a31566c251"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {
+                  "timestamp": "2020-12-30T11:23:21.7794735Z",
+                  "status": 401,
+                  "error": "Unauthorized",
+                  "path": "/v1/prices-long-term",
+                  "X-Request-ID": "daddadca-fbc1-406c-a879-c813a10c6481"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {
+                  "timestamp": "2020-12-30T11:30:07.9489113Z",
+                  "status": 403,
+                  "error": "Forbidden",
+                  "path": "/v1/prices-long-term",
+                  "cause": "user is not permitted to access the request",
+                  "X-Request-ID": "17e8e36a-95d2-453d-8d8c-45c9b38fb93f"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {
+                  "timestamp": "2021-09-20T13:33:00.7895728Z",
+                  "status": 500,
+                  "error": "InternalServerError",
+                  "path": "/v1/prices-long-term",
+                  "cause": "The string argument 'connectionString' cannot be empty.",
+                  "X-Request-ID": "2db171cd-70cd-4fda-a77f-81a31566c251"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/energy-price-forecast/v1/prices": {
+      "get": {
+        "tags": [
+          "Metadata Endpoints"
+        ],
+        "summary": "list of prices supported based on user's subscription",
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "Filter criteria used to narrow down the API response. Using this parameter, user can retrieve the subset of the data set. For instance, user can return data for a specific category. Example: categoryId: 1 will return all prices available to the user in that price category. ",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "field",
+            "in": "query",
+            "description": "List of data field(s) that will be part of the response. Using this parameter, the user can restrict the number of fields that will be part of the service response. If the parameter is not passed, the response will contain all of the response data.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Request for a specific page based on the page size and the total number records. Page numbers requested outside the range of paginated records for the specified page size will return an error.\r\n            \r\n<br>Default: 1<br>Example: 10",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Request the number of records to be returned per page in the API response.\r\n            \r\n<br>Default: 100 <br>Maximum: 1000<br>Example: 200",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Request to sort API response by field(s) ascending/descending.\r\n            \r\n<br>Example: name:desc",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "groupBy",
+            "in": "query",
+            "description": "Request to group API response by the fields listed",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PricesIResponseModel"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {
+                  "timestamp": "2020-12-30T11:36:56.2763814Z",
+                  "status": 400,
+                  "error": "BadRequest",
+                  "path": "/v1/prices",
+                  "cause": "Id is a required field",
+                  "X-Request-ID": "2db171cd-70cd-4fda-a77f-81a31566c251"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {
+                  "timestamp": "2020-12-30T11:23:21.7794735Z",
+                  "status": 401,
+                  "error": "Unauthorized",
+                  "path": "/v1/prices",
+                  "X-Request-ID": "daddadca-fbc1-406c-a879-c813a10c6481"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {
+                  "timestamp": "2020-12-30T11:30:07.9489113Z",
+                  "status": 403,
+                  "error": "Forbidden",
+                  "path": "/v1/prices",
+                  "cause": "user is not permitted to access the request",
+                  "X-Request-ID": "17e8e36a-95d2-453d-8d8c-45c9b38fb93f"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {
+                  "timestamp": "2021-09-20T13:33:00.7895728Z",
+                  "status": 500,
+                  "error": "InternalServerError",
+                  "path": "/v1/prices",
+                  "cause": "The string argument 'connectionString' cannot be empty.",
+                  "X-Request-ID": "2db171cd-70cd-4fda-a77f-81a31566c251"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/energy-price-forecast/v1/long-term-archive-dates": {
+      "get": {
+        "tags": [
+          "Metadata Endpoints"
+        ],
+        "summary": "list of dates long-term forecasts were modified",
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "Filter criteria used to narrow down the API response. Using this parameter, user can retrieve the subset of the data set. For instance, user can retrieve a list of modified dates for a specific price group. Example: groupname: \"Crude\". ",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "field",
+            "in": "query",
+            "description": "List of data field(s) that will be part of the response. Using this parameter, the user can restrict the number of fields that will be part of the service response. If the parameter is not passed, the response will contain all of the response data.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Request for a specific page based on the page size and the total number records. Page numbers requested outside the range of paginated records for the specified page size will return an error.\r\n            \r\n<br>Default: 1<br>Example: 10",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Request the number of records to be returned per page in the API response.\r\n            \r\n<br>Default: 100 <br>Maximum: 1000<br>Example: 200",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Request to sort API response by field(s) ascending/descending.\r\n            \r\n<br>Example: name:desc",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "groupBy",
+            "in": "query",
+            "description": "Request to group API response by the fields listed",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PriceLongTermDatesIResponseModel"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/energy-price-forecast/v1/prices-long-term-archive": {
+      "get": {
+        "tags": [
+          "Data Endpoints"
+        ],
+        "summary": "archived long-term price forecasts",
+        "parameters": [
+          {
+            "name": "ModifiedDate",
+            "in": "query",
+            "description": "User can pass through a modified date to retrieve the forecast updated near (and prior) that requested date. For instance, user can pass through 12/01/2020 to retrieve forecast updated on 2020-11-23 as well as the 1995 baseline. Any historical forecasts updated pre-2020 will have modified date=01/01/1995.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "PriceCategoryCode",
+            "in": "query",
+            "description": "unique identifier for the price category",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "Filter criteria used to narrow down the API response. Using this parameter, user can retrieve the subset of the data set. For instance, user can return archived data for a specific price group and year. Example: groupname: “Crude” AND year: 2028.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "field",
+            "in": "query",
+            "description": "List of data field(s) that will be part of the response. Using this parameter, the user can restrict the number of fields that will be part of the service response. If the parameter is not passed, the response will contain all of the response data.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Request for a specific page based on the page size and the total number records. Page numbers requested outside the range of paginated records for the specified page size will return an error.\r\n            \r\n<br>Default: 1<br>Example: 10",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Request the number of records to be returned per page in the API response.\r\n            \r\n<br>Default: 100 <br>Maximum: 1000<br>Example: 200",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Request to sort API response by field(s) ascending/descending.\r\n            \r\n<br>Example: name:desc",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "groupBy",
+            "in": "query",
+            "description": "Request to group API response by the fields listed",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PriceLongTermArchiveIResponseModel"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/energy-price-forecast/v1/prices-short-term-archive": {
+      "get": {
+        "tags": [
+          "Data Endpoints"
+        ],
+        "summary": "archived short-term price forecasts",
+        "parameters": [
+          {
+            "name": "ModifiedDate",
+            "in": "query",
+            "description": "User can pass through a modified date to retrieve the forecast updated near (and prior) that requested date. For instance, user can pass through 12/01/2020 to retrieve forecast updated on 2020-11-23 as well as the 1995 baseline. Any historical forecasts updated pre-2020 will have modified date=01/01/1995.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "PriceCategoryCode",
+            "in": "query",
+            "description": "unique identifier for the price category",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "Filter criteria used to narrow down the API response. Using this parameter, user can retrieve the subset of the data set. For instance, user can return data for a specific price group and year. Example: groupname: “Crude” AND year: 2028.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "field",
+            "in": "query",
+            "description": "List of data field(s) that will be part of the response. Using this parameter, the user can restrict the number of fields that will be part of the service response. If the parameter is not passed, the response will contain all of the response data.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Request for a specific page based on the page size and the total number records. Page numbers requested outside the range of paginated records for the specified page size will return an error.\r\n            \r\n<br>Default: 1<br>Example: 10",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Request the number of records to be returned per page in the API response.\r\n            \r\n<br>Default: 100 <br>Maximum: 1000<br>Example: 200",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Request to sort API response by field(s) ascending/descending.\r\n            \r\n<br>Example: name:desc",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "groupBy",
+            "in": "query",
+            "description": "Request to group API response by the fields listed",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PriceShortTermArchiveIResponseModel"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/energy-price-forecast/v1/prices-short-term": {
+      "get": {
+        "tags": [
+          "Data Endpoints"
+        ],
+        "summary": "Platts' latest short-term price forecasts and historical prices provided on a monthly granularity",
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "Filter criteria used to narrow down the API response. Using this parameter, user can retrieve the subset of the data set. For instance, user can return data for a specific price group and year. Example: groupname: “Crude” AND year: 2028.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "field",
+            "in": "query",
+            "description": "List of data field(s) that will be part of the response. Using this parameter, the user can restrict the number of fields that will be part of the service response. If the parameter is not passed, the response will contain all of the response data.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Request for a specific page based on the page size and the total number records. Page numbers requested outside the range of paginated records for the specified page size will return an error.\r\n            \r\n<br>Default: 1<br>Example: 10",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Request the number of records to be returned per page in the API response.\r\n            \r\n<br>Default: 100 <br>Maximum: 1000<br>Example: 200",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Request to sort API response by field(s) ascending/descending.\r\n            \r\n<br>Example: name:desc",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "groupBy",
+            "in": "query",
+            "description": "Request to group API response by the fields listed",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShortTermPriceIResponseModel"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {
+                  "timestamp": "2020-12-30T11:36:56.2763814Z",
+                  "status": 400,
+                  "error": "BadRequest",
+                  "path": "/v1/prices-short-term",
+                  "cause": "Id is a required field",
+                  "X-Request-ID": "2db171cd-70cd-4fda-a77f-81a31566c251"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {
+                  "timestamp": "2020-12-30T11:23:21.7794735Z",
+                  "status": 401,
+                  "error": "Unauthorized",
+                  "path": "/v1/prices-short-term",
+                  "X-Request-ID": "daddadca-fbc1-406c-a879-c813a10c6481"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {
+                  "timestamp": "2020-12-30T11:30:07.9489113Z",
+                  "status": 403,
+                  "error": "Forbidden",
+                  "path": "/v1/prices-short-term",
+                  "cause": "user is not permitted to access the request",
+                  "X-Request-ID": "17e8e36a-95d2-453d-8d8c-45c9b38fb93f"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {
+                  "timestamp": "2021-09-20T13:33:00.7895728Z",
+                  "status": 500,
+                  "error": "InternalServerError",
+                  "path": "/v1/prices-short-term",
+                  "cause": "The string argument 'connectionString' cannot be empty.",
+                  "X-Request-ID": "2db171cd-70cd-4fda-a77f-81a31566c251"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/energy-price-forecast/v1/short-term-archive-dates": {
+      "get": {
+        "tags": [
+          "Metadata Endpoints"
+        ],
+        "summary": "list of dates short-term forecasts were modified",
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "Filter criteria used to narrow down the API response. Using this parameter, user can retrieve the subset of the data set. For instance, user can retrieve a list of modified dates for a specific price group. Example: groupname: \"Crude\".",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "field",
+            "in": "query",
+            "description": "List of data field(s) that will be part of the response. Using this parameter, the user can restrict the number of fields that will be part of the service response. If the parameter is not passed, the response will contain all of the response data.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Request for a specific page based on the page size and the total number records. Page numbers requested outside the range of paginated records for the specified page size will return an error.\r\n            \r\n<br>Default: 1<br>Example: 10",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Request the number of records to be returned per page in the API response.\r\n            \r\n<br>Default: 100 <br>Maximum: 1000<br>Example: 200",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Request to sort API response by field(s) ascending/descending.\r\n            \r\n<br>Example: name:desc",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "groupBy",
+            "in": "query",
+            "description": "Request to group API response by the fields listed",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PriceShortTermDatesIResponseModel"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/energy-price-forecast/v1/sectors": {
+      "get": {
+        "tags": [
+          "Metadata Endpoints"
+        ],
+        "summary": "list of sectors supported in the dataset based on user's subscription",
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "Filter criteria used to narrow down the API response. Using this parameter, user can retrieve the subset of the data set.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "field",
+            "in": "query",
+            "description": "List of data field(s) that will be part of the response. Using this parameter, the user can restrict the number of fields that will be part of the service response. If the parameter is not passed, the response will contain all of the response data.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Request for a specific page based on the page size and the total number records. Page numbers requested outside the range of paginated records for the specified page size will return an error.\r\n            \r\n<br>Default: 1<br>Example: 10",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Request the number of records to be returned per page in the API response.\r\n            \r\n<br>Default: 100 <br>Maximum: 1000<br>Example: 200",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Request to sort API response by field(s) ascending/descending.\r\n            \r\n<br>Example: name:desc",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "groupBy",
+            "in": "query",
+            "description": "Request to group API response by the fields listed",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SectorIResponseModel"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/energy-price-forecast/v1/sector-groups": {
+      "get": {
+        "tags": [
+          "Metadata Endpoints"
+        ],
+        "summary": "list of sector groups associated with prices",
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "Filter criteria used to narrow down the API response. Using this parameter, user can retrieve the subset of the data set. For instance, you can return data for a specific price group: Example: groupname: “Crude” AND year: 2028.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "field",
+            "in": "query",
+            "description": "List of data field(s) that will be part of the response. Using this parameter, the user can restrict the number of fields that will be part of the service response. If the parameter is not passed, the response will contain all of the response data.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Request for a specific page based on the page size and the total number records. Page numbers requested outside the range of paginated records for the specified page size will return an error.\r\n            \r\n<br>Default: 1<br>Example: 10",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Request the number of records to be returned per page in the API response.\r\n            \r\n<br>Default: 100 <br>Maximum: 1000<br>Example: 200",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Request to sort API response by field(s) ascending/descending.\r\n            \r\n<br>Example: name:desc",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "groupBy",
+            "in": "query",
+            "description": "Request to group API response by the fields listed",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SectorGroupIResponseModel"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/energy-price-forecast/v1/units": {
+      "get": {
+        "tags": [
+          "Metadata Endpoints"
+        ],
+        "summary": "list of physical units supported in the dataset",
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "Filter criteria used to narrow down the API response. Using this parameter, user can retrieve the subset of the data set.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "field",
+            "in": "query",
+            "description": "List of data field(s) that will be part of the response. Using this parameter, the user can restrict the number of fields that will be part of the service response. If the parameter is not passed, the response will contain all of the response data.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Request for a specific page based on the page size and the total number records. Page numbers requested outside the range of paginated records for the specified page size will return an error.\r\n            \r\n<br>Default: 1<br>Example: 10",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Request the number of records to be returned per page in the API response.\r\n            \r\n<br>Default: 100 <br>Maximum: 1000<br>Example: 200",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Request to sort API response by field(s) ascending/descending.\r\n            \r\n<br>Example: name:desc",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "groupBy",
+            "in": "query",
+            "description": "Request to group API response by the fields listed",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnitIResponseModel"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {
+                  "timestamp": "2020-12-30T11:36:56.2763814Z",
+                  "status": 400,
+                  "error": "BadRequest",
+                  "path": "/v1/units",
+                  "cause": "Id is a required field",
+                  "X-Request-ID": "2db171cd-70cd-4fda-a77f-81a31566c251"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {
+                  "timestamp": "2020-12-30T11:23:21.7794735Z",
+                  "status": 401,
+                  "error": "Unauthorized",
+                  "path": "/v1/units",
+                  "X-Request-ID": "daddadca-fbc1-406c-a879-c813a10c6481"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {
+                  "timestamp": "2020-12-30T11:30:07.9489113Z",
+                  "status": 403,
+                  "error": "Forbidden",
+                  "path": "/v1/units",
+                  "cause": "user is not permitted to access the request",
+                  "X-Request-ID": "17e8e36a-95d2-453d-8d8c-45c9b38fb93f"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {
+                  "timestamp": "2021-09-20T13:33:00.7895728Z",
+                  "status": 500,
+                  "error": "InternalServerError",
+                  "path": "/v1/units",
+                  "cause": "The string argument 'connectionString' cannot be empty.",
+                  "X-Request-ID": "2db171cd-70cd-4fda-a77f-81a31566c251"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/energy-price-forecast/v1/years-long-term": {
+      "get": {
+        "tags": [
+          "Metadata Endpoints"
+        ],
+        "summary": "list of years price data is available for long-term forecasts and historical prices",
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "Filter criteria used to narrow down the API response. Using this parameter, user can retrieve the subset of the data set.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "field",
+            "in": "query",
+            "description": "List of data field(s) that will be part of the response. Using this parameter, the user can restrict the number of fields that will be part of the service response. If the parameter is not passed, the response will contain all of the response data.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Request for a specific page based on the page size and the total number records. Page numbers requested outside the range of paginated records for the specified page size will return an error.\r\n            \r\n<br>Default: 1<br>Example: 10",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Request the number of records to be returned per page in the API response.\r\n            \r\n<br>Default: 100 <br>Maximum: 1000<br>Example: 200",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Request to sort API response by field(s) ascending/descending.\r\n            \r\n<br>Example: name:desc",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "groupBy",
+            "in": "query",
+            "description": "Request to group API response by the fields listed",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/YearLongTermIResponseModel"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {
+                  "timestamp": "2020-12-30T11:36:56.2763814Z",
+                  "status": 400,
+                  "error": "BadRequest",
+                  "path": "/v1/years-long-term",
+                  "cause": "Id is a required field",
+                  "X-Request-ID": "2db171cd-70cd-4fda-a77f-81a31566c251"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {
+                  "timestamp": "2020-12-30T11:23:21.7794735Z",
+                  "status": 401,
+                  "error": "Unauthorized",
+                  "path": "/v1/years-long-term",
+                  "X-Request-ID": "daddadca-fbc1-406c-a879-c813a10c6481"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {
+                  "timestamp": "2020-12-30T11:30:07.9489113Z",
+                  "status": 403,
+                  "error": "Forbidden",
+                  "path": "/v1/years-long-term",
+                  "cause": "user is not permitted to access the request",
+                  "X-Request-ID": "17e8e36a-95d2-453d-8d8c-45c9b38fb93f"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {
+                  "timestamp": "2021-09-20T13:33:00.7895728Z",
+                  "status": 500,
+                  "error": "InternalServerError",
+                  "path": "/v1/years-long-term",
+                  "cause": "The string argument 'connectionString' cannot be empty.",
+                  "X-Request-ID": "2db171cd-70cd-4fda-a77f-81a31566c251"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/energy-price-forecast/v1/years-short-term": {
+      "get": {
+        "tags": [
+          "Metadata Endpoints"
+        ],
+        "summary": "list of years price data is available for short-term forecasts and historical prices",
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "Filter criteria used to narrow down the API response. Using this parameter, user can retrieve the subset of the data set.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "field",
+            "in": "query",
+            "description": "List of data field(s) that will be part of the response. Using this parameter, the user can restrict the number of fields that will be part of the service response. If the parameter is not passed, the response will contain all of the response data.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Request for a specific page based on the page size and the total number records. Page numbers requested outside the range of paginated records for the specified page size will return an error.\r\n            \r\n<br>Default: 1<br>Example: 10",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Request the number of records to be returned per page in the API response.\r\n            \r\n<br>Default: 100 <br>Maximum: 1000<br>Example: 200",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Request to sort API response by field(s) ascending/descending.\r\n            \r\n<br>Example: name:desc",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "groupBy",
+            "in": "query",
+            "description": "Request to group API response by the fields listed",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/YearShortTermIResponseModel"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {
+                  "timestamp": "2020-12-30T11:36:56.2763814Z",
+                  "status": 400,
+                  "error": "BadRequest",
+                  "path": "/v1/years-short-term",
+                  "cause": "Id is a required field",
+                  "X-Request-ID": "2db171cd-70cd-4fda-a77f-81a31566c251"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {
+                  "timestamp": "2020-12-30T11:23:21.7794735Z",
+                  "status": 401,
+                  "error": "Unauthorized",
+                  "path": "/v1/years-short-term",
+                  "X-Request-ID": "daddadca-fbc1-406c-a879-c813a10c6481"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {
+                  "timestamp": "2020-12-30T11:30:07.9489113Z",
+                  "status": 403,
+                  "error": "Forbidden",
+                  "path": "/v1/years-short-term",
+                  "cause": "user is not permitted to access the request",
+                  "X-Request-ID": "17e8e36a-95d2-453d-8d8c-45c9b38fb93f"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {
+                  "timestamp": "2021-09-20T13:33:00.7895728Z",
+                  "status": 500,
+                  "error": "InternalServerError",
+                  "path": "/v1/years-short-term",
+                  "cause": "The string argument 'connectionString' cannot be empty.",
+                  "X-Request-ID": "2db171cd-70cd-4fda-a77f-81a31566c251"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/energy-price-forecast/v1/years-lt-category": {
+      "get": {
+        "tags": [
+          "Metadata Endpoints"
+        ],
+        "summary": "list of years price data is available for long-term forecasts and historical prices,list of years for most granular of given parameters",
+        "parameters": [
+          {
+            "name": "PriceCode",
+            "in": "query",
+            "description": "unique identifier for price referenced",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "PriceCategoryCode",
+            "in": "query",
+            "description": "unique identifier for a category",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "PriceGroupCode",
+            "in": "query",
+            "description": "unique identifier for a group name",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "Filter criteria used to narrow down the API response. Using this parameter, user can retrieve the subset of the data set. For instance, you can return data for a specific price group: Example: groupname: “Crude” AND year: 2028.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "field",
+            "in": "query",
+            "description": "List of data field(s) that will be part of the response. Using this parameter, the user can restrict the number of fields that will be part of the service response. If the parameter is not passed, the response will contain all of the response data.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Request for a specific page based on the page size and the total number records. Page numbers requested outside the range of paginated records for the specified page size will return an error.\r\n            \r\n<br>Default: 1<br>Example: 10",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Request the number of records to be returned per page in the API response.\r\n            \r\n<br>Default: 100 <br>Maximum: 1000<br>Example: 200",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Request to sort API response by field(s) ascending/descending.\r\n            \r\n<br>Example: name:desc",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "groupBy",
+            "in": "query",
+            "description": "Request to group API response by the fields listed",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/YearLongTermIResponseModel"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/energy-price-forecast/v1/years-st-category": {
+      "get": {
+        "tags": [
+          "Metadata Endpoints"
+        ],
+        "summary": "list of years price data is available for long-term forecasts and historical prices,list of years for most granular of given parameters",
+        "parameters": [
+          {
+            "name": "PriceCode",
+            "in": "query",
+            "description": "unique identifier for price referenced",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "PriceCategoryCode",
+            "in": "query",
+            "description": "unique identifier for a category",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "PriceGroupCode",
+            "in": "query",
+            "description": "unique identifier for a group name",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "Filter criteria used to narrow down the API response. Using this parameter, user can retrieve the subset of the data set. For instance, you can return data for a specific price group: Example: groupname: “Crude” AND year: 2028.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "field",
+            "in": "query",
+            "description": "List of data field(s) that will be part of the response. Using this parameter, the user can restrict the number of fields that will be part of the service response. If the parameter is not passed, the response will contain all of the response data.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Request for a specific page based on the page size and the total number records. Page numbers requested outside the range of paginated records for the specified page size will return an error.\r\n            \r\n<br>Default: 1<br>Example: 10",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Request the number of records to be returned per page in the API response.\r\n            \r\n<br>Default: 100 <br>Maximum: 1000<br>Example: 200",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Request to sort API response by field(s) ascending/descending.\r\n            \r\n<br>Example: name:desc",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "groupBy",
+            "in": "query",
+            "description": "Request to group API response by the fields listed",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/YearShortTermIResponseModel"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/energy-price-forecast/v1/metadata": {
+      "get": {
+        "tags": [
+          "Metadata"
+        ],
+        "summary": "Provides metadata for client applications",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Field"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {
+                  "timestamp": "2020-12-30T11:36:56.2763814Z",
+                  "status": 400,
+                  "error": "BadRequest",
+                  "path": "/v1/metadata",
+                  "cause": "Id is a required field",
+                  "X-Request-ID": "2db171cd-70cd-4fda-a77f-81a31566c251"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {
+                  "timestamp": "2020-12-30T11:23:21.7794735Z",
+                  "status": 401,
+                  "error": "Unauthorized",
+                  "path": "/v1/metadata",
+                  "X-Request-ID": "daddadca-fbc1-406c-a879-c813a10c6481"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {
+                  "timestamp": "2020-12-30T11:30:07.9489113Z",
+                  "status": 403,
+                  "error": "Forbidden",
+                  "path": "/v1/metadata",
+                  "cause": "user is not permitted to access the request",
+                  "X-Request-ID": "17e8e36a-95d2-453d-8d8c-45c9b38fb93f"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {
+                  "timestamp": "2021-09-20T13:33:00.7895728Z",
+                  "status": 500,
+                  "error": "InternalServerError",
+                  "path": "/v1/metadata",
+                  "cause": "The string argument 'connectionString' cannot be empty.",
+                  "X-Request-ID": "2db171cd-70cd-4fda-a77f-81a31566c251"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Category": {
+        "type": "object",
+        "properties": {
+          "categoryId": {
+            "type": "integer",
+            "description": "",
+            "format": "int32"
+          },
+          "categoryName": {
+            "type": "string",
+            "description": "Category name",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "represents a commodity group"
+      },
+      "CategoryIResponseModel": {
+        "type": "object",
+        "properties": {
+          "metadata": {
+            "$ref": "#/components/schemas/ResponseMetaData"
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Category"
+            },
+            "description": "Result values",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "An interface for a generic response model"
+      },
+      "Commodity": {
+        "type": "object",
+        "properties": {
+          "commodityId": {
+            "type": "integer",
+            "description": "unique identifier for commodity",
+            "format": "int32"
+          },
+          "commodityName": {
+            "type": "string",
+            "description": "name of commodity",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "represents a commodity grade associated with prices"
+      },
+      "CommodityIResponseModel": {
+        "type": "object",
+        "properties": {
+          "metadata": {
+            "$ref": "#/components/schemas/ResponseMetaData"
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Commodity"
+            },
+            "description": "Result values",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "An interface for a generic response model"
+      },
+      "Currency": {
+        "type": "object",
+        "properties": {
+          "currencyId": {
+            "type": "integer",
+            "description": "Unique identifier for currency",
+            "format": "int16"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description",
+            "nullable": true
+          },
+          "symbol": {
+            "type": "string",
+            "description": "Symbol",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Represents a currency"
+      },
+      "CurrencyIResponseModel": {
+        "type": "object",
+        "properties": {
+          "metadata": {
+            "$ref": "#/components/schemas/ResponseMetaData"
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Currency"
+            },
+            "description": "Result values",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "An interface for a generic response model"
+      },
+      "DeliveryRegion": {
+        "type": "object",
+        "properties": {
+          "deliveryRegionId": {
+            "type": "integer",
+            "description": "unique identifier for a delivery region",
+            "format": "int32"
+          },
+          "deliveryRegionName": {
+            "type": "string",
+            "description": "name of delivery region",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "represents a delivery regions associated with prices"
+      },
+      "DeliveryRegionIResponseModel": {
+        "type": "object",
+        "properties": {
+          "metadata": {
+            "$ref": "#/components/schemas/ResponseMetaData"
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DeliveryRegion"
+            },
+            "description": "Result values",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "An interface for a generic response model"
+      },
+      "ErrorModel": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "error": {
+            "type": "string",
+            "nullable": true
+          },
+          "path": {
+            "type": "string",
+            "nullable": true
+          },
+          "cause": {
+            "type": "string",
+            "nullable": true
+          },
+          "correlationId": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Field": {
+        "type": "object",
+        "properties": {
+          "field": {
+            "type": "string",
+            "description": "The field name",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "description": "The type",
+            "nullable": true
+          },
+          "isQueryField": {
+            "type": "boolean",
+            "description": "Is query field"
+          },
+          "isSelectField": {
+            "type": "boolean",
+            "description": "Is the field selectable (field query argument)"
+          },
+          "isSortField": {
+            "type": "boolean",
+            "description": "Is the field sortable (sort query argument)"
+          },
+          "isGroupField": {
+            "type": "boolean",
+            "description": "Is the field groupable (groupBy query argument)"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Field"
+      },
+      "LongTermPrice": {
+        "type": "object",
+        "properties": {
+          "year": {
+            "type": "integer",
+            "description": "Year",
+            "format": "int32"
+          },
+          "categoryName": {
+            "type": "string",
+            "description": "commodity business line price rolls up to",
+            "nullable": true
+          },
+          "groupName": {
+            "type": "string",
+            "description": "name of price group",
+            "nullable": true
+          },
+          "priceName": {
+            "type": "string",
+            "description": "name of price referenced",
+            "nullable": true
+          },
+          "priceSymbol": {
+            "type": "string",
+            "description": "a Platts 7-character unique identifier that corresponds to a price value",
+            "nullable": true
+          },
+          "price": {
+            "type": "number",
+            "description": "Price",
+            "format": "double",
+            "nullable": true
+          },
+          "unitName": {
+            "type": "string",
+            "description": "description of physical unit",
+            "nullable": true
+          },
+          "unitId": {
+            "type": "integer",
+            "description": "unique identifier for a physical unit",
+            "format": "int32"
+          },
+          "currencySymbol": {
+            "type": "string",
+            "description": "currency symbol",
+            "nullable": true
+          },
+          "currencyDescription": {
+            "type": "string",
+            "description": "name of currency",
+            "nullable": true
+          },
+          "priceCode": {
+            "type": "integer",
+            "description": "unique identifier for a price name",
+            "format": "int32"
+          },
+          "priceCategoryCode": {
+            "type": "integer",
+            "description": "unique identifier for a category name",
+            "format": "int32"
+          },
+          "priceGroupCode": {
+            "type": "integer",
+            "description": "unique identifier for a price group",
+            "format": "int32"
+          },
+          "currencyCode": {
+            "type": "integer",
+            "description": "three letter code representing the currency of the price referenced",
+            "format": "int32"
+          },
+          "modifiedDate": {
+            "type": "string",
+            "description": "modified date of dataset",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Long term price"
+      },
+      "LongTermPriceIResponseModel": {
+        "type": "object",
+        "properties": {
+          "metadata": {
+            "$ref": "#/components/schemas/ResponseMetaData"
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LongTermPrice"
+            },
+            "description": "Result values",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "An interface for a generic response model"
+      },
+      "PriceLongTermDates": {
+        "type": "object",
+        "properties": {
+          "categoryId": {
+            "type": "integer",
+            "description": "unique identifier for a category",
+            "format": "int32"
+          },
+          "categoryName": {
+            "type": "string",
+            "description": "commodity business line price rolls up to",
+            "nullable": true
+          },
+          "groupId": {
+            "type": "integer",
+            "description": "unique identifier for a group name",
+            "format": "int32"
+          },
+          "groupName": {
+            "type": "string",
+            "description": "name of price group",
+            "nullable": true
+          },
+          "priceId": {
+            "type": "integer",
+            "description": "unique identifier for price referenced",
+            "format": "int32"
+          },
+          "priceName": {
+            "type": "string",
+            "description": "name of price referenced",
+            "nullable": true
+          },
+          "sectorId": {
+            "type": "integer",
+            "description": "unique identifier for a commodity sector",
+            "format": "int32"
+          },
+          "sectorName": {
+            "type": "string",
+            "description": "name of commodity sector",
+            "nullable": true
+          },
+          "commodityId": {
+            "type": "integer",
+            "description": "unique identifier for commodity",
+            "format": "int32"
+          },
+          "commodityName": {
+            "type": "string",
+            "description": "Commodity name",
+            "nullable": true
+          },
+          "regionId": {
+            "type": "integer",
+            "description": "unique identifier for a delivery region",
+            "format": "int32"
+          },
+          "regionName": {
+            "type": "string",
+            "description": "name of delivery region",
+            "nullable": true
+          },
+          "modifiedDate": {
+            "type": "string",
+            "description": "Modified Date",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Represent metadata publication dates for Price Long Term Endpoint"
+      },
+      "PriceLongTermDatesIResponseModel": {
+        "type": "object",
+        "properties": {
+          "metadata": {
+            "$ref": "#/components/schemas/ResponseMetaData"
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PriceLongTermDates"
+            },
+            "description": "Result values",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "An interface for a generic response model"
+      },
+      "PriceGroup": {
+        "type": "object",
+        "properties": {
+          "groupId": {
+            "type": "integer",
+            "description": "unique identifier for a price group",
+            "format": "int32",
+            "nullable": true
+          },
+          "groupName": {
+            "type": "string",
+            "description": "The group name",
+            "nullable": true
+          },
+          "categoryId": {
+            "type": "integer",
+            "description": "unique identifier for a category name",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Represents a unit"
+      },
+      "PriceGroupIResponseModel": {
+        "type": "object",
+        "properties": {
+          "metadata": {
+            "$ref": "#/components/schemas/ResponseMetaData"
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PriceGroup"
+            },
+            "description": "Result values",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "An interface for a generic response model"
+      },
+      "Prices": {
+        "type": "object",
+        "properties": {
+          "priceId": {
+            "type": "integer",
+            "description": "unique identifier for price referenced",
+            "format": "int32"
+          },
+          "priceName": {
+            "type": "string",
+            "description": "name of price referenced",
+            "nullable": true
+          },
+          "priceSymbol": {
+            "type": "string",
+            "description": "a Platts 7-character unique identifier that corresponds to a price value",
+            "nullable": true
+          },
+          "symbolStatus": {
+            "type": "string",
+            "description": "The symbol Status",
+            "nullable": true
+          },
+          "groupId": {
+            "type": "integer",
+            "description": "unique identifier for a price group",
+            "format": "int32",
+            "nullable": true
+          },
+          "categoryId": {
+            "type": "integer",
+            "description": "unique identifier for a category name",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Represents a price"
+      },
+      "PricesIResponseModel": {
+        "type": "object",
+        "properties": {
+          "metadata": {
+            "$ref": "#/components/schemas/ResponseMetaData"
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Prices"
+            },
+            "description": "Result values",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "An interface for a generic response model"
+      },
+      "ResponseMetaData": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer",
+            "description": "Total Record",
+            "format": "int32"
+          },
+          "page": {
+            "type": "integer",
+            "description": "The user can request for a specific page based on the page size and the total number records. If the value is not specified it will default to the first page. If the page number requested is outside the range of paginated records for the specified page size, it will return an error. \\n Default: 1 \\nExample: 10",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "description": "Using this parameter the user can request the number of records that have to be fetched as part of the response. If the value is not specified it will be default to 100 records per response. The maximum value that can be specified for this parameter is 1000. \\n Default: 100 \\n Example : 200",
+            "format": "int32"
+          },
+          "queryTime": {
+            "type": "integer",
+            "description": "Using this parameter the user know the API response time specific to each request",
+            "format": "int64"
+          }
+        },
+        "additionalProperties": false,
+        "description": "A model that provides metadata"
+      },
+      "ShortTermPrice": {
+        "type": "object",
+        "properties": {
+          "year": {
+            "type": "integer",
+            "description": "Year",
+            "format": "int32"
+          },
+          "month": {
+            "type": "integer",
+            "description": "Month",
+            "format": "int32"
+          },
+          "categoryName": {
+            "type": "string",
+            "description": "commodity business line price rolls up to",
+            "nullable": true
+          },
+          "groupName": {
+            "type": "string",
+            "description": "name of price group",
+            "nullable": true
+          },
+          "priceName": {
+            "type": "string",
+            "description": "name of price referenced",
+            "nullable": true
+          },
+          "priceSymbol": {
+            "type": "string",
+            "description": "a Platts 7-character unique identifier that corresponds to a price value",
+            "nullable": true
+          },
+          "price": {
+            "type": "number",
+            "description": "Price",
+            "format": "double",
+            "nullable": true
+          },
+          "unitName": {
+            "type": "string",
+            "description": "description of physical unit",
+            "nullable": true
+          },
+          "unitId": {
+            "type": "integer",
+            "description": "unique identifier for a physical unit",
+            "format": "int32"
+          },
+          "currencySymbol": {
+            "type": "string",
+            "description": "currency symbol",
+            "nullable": true
+          },
+          "currencyDescription": {
+            "type": "string",
+            "description": "name of currency",
+            "nullable": true
+          },
+          "priceCode": {
+            "type": "integer",
+            "description": "unique identifier for a price name",
+            "format": "int32"
+          },
+          "priceCategoryCode": {
+            "type": "integer",
+            "description": "unique identifier for a category name",
+            "format": "int32"
+          },
+          "priceGroupCode": {
+            "type": "integer",
+            "description": "unique identifier for a price group",
+            "format": "int32"
+          },
+          "currencyCode": {
+            "type": "integer",
+            "description": "three letter code representing the currency of the price referenced",
+            "format": "int32"
+          },
+          "modifiedDate": {
+            "type": "string",
+            "description": "modified date of dataset",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false,
+        "description": "ShortTermPrice"
+      },
+      "ShortTermPriceIResponseModel": {
+        "type": "object",
+        "properties": {
+          "metadata": {
+            "$ref": "#/components/schemas/ResponseMetaData"
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ShortTermPrice"
+            },
+            "description": "Result values",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "An interface for a generic response model"
+      },
+      "PriceLongTermArchive": {
+        "type": "object",
+        "properties": {
+          "year": {
+            "type": "integer",
+            "description": "Year",
+            "format": "int32"
+          },
+          "categoryName": {
+            "type": "string",
+            "description": "commodity business line price rolls up to",
+            "nullable": true
+          },
+          "groupName": {
+            "type": "string",
+            "description": "name of price group",
+            "nullable": true
+          },
+          "priceName": {
+            "type": "string",
+            "description": "name of price referenced",
+            "nullable": true
+          },
+          "priceSymbol": {
+            "type": "string",
+            "description": "A Platts 7-character unique identifier that corresponds to a price value",
+            "nullable": true
+          },
+          "price": {
+            "type": "number",
+            "description": "Price",
+            "format": "double",
+            "nullable": true
+          },
+          "unitName": {
+            "type": "string",
+            "description": "description of physical unit",
+            "nullable": true
+          },
+          "unitId": {
+            "type": "integer",
+            "description": "unique identifier for a physical unit",
+            "format": "int32"
+          },
+          "currencySymbol": {
+            "type": "string",
+            "description": "currency symbol",
+            "nullable": true
+          },
+          "currencyDescription": {
+            "type": "string",
+            "description": "name of currency",
+            "nullable": true
+          },
+          "priceCode": {
+            "type": "integer",
+            "description": "unique identifier for a price name",
+            "format": "int32"
+          },
+          "priceCategoryCode": {
+            "type": "integer",
+            "description": "unique identifier for a category name",
+            "format": "int32"
+          },
+          "priceGroupCode": {
+            "type": "integer",
+            "description": "unique identifier for a price group",
+            "format": "int32"
+          },
+          "currencyCode": {
+            "type": "integer",
+            "description": "three letter code representing the currency of the price referenced",
+            "format": "int32"
+          },
+          "sectorId": {
+            "type": "integer",
+            "description": "unique identifier for a commodity sector",
+            "format": "int32"
+          },
+          "sectorName": {
+            "type": "string",
+            "description": "name of commodity sector",
+            "nullable": true
+          },
+          "deliveryRegionId": {
+            "type": "integer",
+            "description": "unique identifier for a delivery region",
+            "format": "int32"
+          },
+          "deliveryRegionName": {
+            "type": "string",
+            "description": "name of delivery region",
+            "nullable": true
+          },
+          "commodityId": {
+            "type": "integer",
+            "description": "unique identifier for commodity",
+            "format": "int32"
+          },
+          "commodityName": {
+            "type": "string",
+            "description": "name of commodity",
+            "nullable": true
+          },
+          "modifiedDate": {
+            "type": "string",
+            "description": "modified date of dataset",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Long term price archive"
+      },
+      "PriceLongTermArchiveIResponseModel": {
+        "type": "object",
+        "properties": {
+          "metadata": {
+            "$ref": "#/components/schemas/ResponseMetaData"
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PriceLongTermArchive"
+            },
+            "description": "Result values",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "An interface for a generic response model"
+      },
+      "PriceShortTermArchive": {
+        "type": "object",
+        "properties": {
+          "year": {
+            "type": "integer",
+            "description": "Year",
+            "format": "int32"
+          },
+          "month": {
+            "type": "integer",
+            "description": "Month",
+            "format": "int32"
+          },
+          "categoryName": {
+            "type": "string",
+            "description": "commodity business line price rolls up to",
+            "nullable": true
+          },
+          "groupName": {
+            "type": "string",
+            "description": "name of price group",
+            "nullable": true
+          },
+          "priceName": {
+            "type": "string",
+            "description": "name of price referenced",
+            "nullable": true
+          },
+          "priceSymbol": {
+            "type": "string",
+            "description": "A Platts 7-character unique identifier that corresponds to a price value",
+            "nullable": true
+          },
+          "price": {
+            "type": "number",
+            "description": "Price",
+            "format": "double",
+            "nullable": true
+          },
+          "unitName": {
+            "type": "string",
+            "description": "description of physical unit",
+            "nullable": true
+          },
+          "unitId": {
+            "type": "integer",
+            "description": "unique identifier for a physical unit",
+            "format": "int32"
+          },
+          "currencySymbol": {
+            "type": "string",
+            "description": "currency symbol",
+            "nullable": true
+          },
+          "currencyDescription": {
+            "type": "string",
+            "description": "name of currency",
+            "nullable": true
+          },
+          "priceCode": {
+            "type": "integer",
+            "description": "unique identifier for a price name",
+            "format": "int32"
+          },
+          "priceCategoryCode": {
+            "type": "integer",
+            "description": "unique identifier for a category name",
+            "format": "int32"
+          },
+          "priceGroupCode": {
+            "type": "integer",
+            "description": "unique identifier for a price group",
+            "format": "int32"
+          },
+          "currencyCode": {
+            "type": "integer",
+            "description": "three letter code representing the currency of the price referenced",
+            "format": "int32"
+          },
+          "modifiedDate": {
+            "type": "string",
+            "description": "modified date of dataset",
+            "format": "date-time"
+          },
+          "sectorId": {
+            "type": "integer",
+            "description": "unique identifier for a commodity sector",
+            "format": "int32"
+          },
+          "sectorName": {
+            "type": "string",
+            "description": "name of commodity sector",
+            "nullable": true
+          },
+          "deliveryRegionId": {
+            "type": "integer",
+            "description": "Unique identifier deliveryRegion",
+            "format": "int32"
+          },
+          "deliveryRegionName": {
+            "type": "string",
+            "description": "Description for delivery region",
+            "nullable": true
+          },
+          "commodityId": {
+            "type": "integer",
+            "description": "unique identifier commodity",
+            "format": "int32"
+          },
+          "commodityName": {
+            "type": "string",
+            "description": "name of commodity",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "ShortTermPrice"
+      },
+      "PriceShortTermArchiveIResponseModel": {
+        "type": "object",
+        "properties": {
+          "metadata": {
+            "$ref": "#/components/schemas/ResponseMetaData"
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PriceShortTermArchive"
+            },
+            "description": "Result values",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "An interface for a generic response model"
+      },
+      "PriceShortTermDates": {
+        "type": "object",
+        "properties": {
+          "categoryId": {
+            "type": "integer",
+            "description": "unique identifier for a category",
+            "format": "int32"
+          },
+          "categoryName": {
+            "type": "string",
+            "description": "commodity business line price rolls up to",
+            "nullable": true
+          },
+          "groupId": {
+            "type": "integer",
+            "description": "unique identifier for a group name",
+            "format": "int32"
+          },
+          "groupName": {
+            "type": "string",
+            "description": "name of price group",
+            "nullable": true
+          },
+          "priceId": {
+            "type": "integer",
+            "description": "unique identifier for price referenced",
+            "format": "int32"
+          },
+          "priceName": {
+            "type": "string",
+            "description": "name of price referenced",
+            "nullable": true
+          },
+          "sectorId": {
+            "type": "integer",
+            "description": "unique identifier for a commodity sector",
+            "format": "int32"
+          },
+          "sectorName": {
+            "type": "string",
+            "description": "name of commodity sector",
+            "nullable": true
+          },
+          "commodityId": {
+            "type": "integer",
+            "description": "unique identifier for commodity",
+            "format": "int32"
+          },
+          "commodityName": {
+            "type": "string",
+            "description": "name of commodity",
+            "nullable": true
+          },
+          "regionId": {
+            "type": "integer",
+            "description": "unique identifier for a delivery region",
+            "format": "int32"
+          },
+          "regionName": {
+            "type": "string",
+            "description": "name of delivery region",
+            "nullable": true
+          },
+          "modifiedDate": {
+            "type": "string",
+            "description": "Modified Date",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Represent metadata publication dates for Price Short Term Endpoint"
+      },
+      "PriceShortTermDatesIResponseModel": {
+        "type": "object",
+        "properties": {
+          "metadata": {
+            "$ref": "#/components/schemas/ResponseMetaData"
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PriceShortTermDates"
+            },
+            "description": "Result values",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "An interface for a generic response model"
+      },
+      "Sector": {
+        "type": "object",
+        "properties": {
+          "sectorId": {
+            "type": "integer",
+            "description": "unique identifier for a commodity sector",
+            "format": "int32"
+          },
+          "sectorName": {
+            "type": "string",
+            "description": "name of commodity sector",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "represents a sector associated with prices"
+      },
+      "SectorIResponseModel": {
+        "type": "object",
+        "properties": {
+          "metadata": {
+            "$ref": "#/components/schemas/ResponseMetaData"
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Sector"
+            },
+            "description": "Result values",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "An interface for a generic response model"
+      },
+      "SectorGroup": {
+        "type": "object",
+        "properties": {
+          "sectorId": {
+            "type": "integer",
+            "description": "unique identifier for a commodity sector",
+            "format": "int32"
+          },
+          "sectorName": {
+            "type": "string",
+            "description": "name of commodity sector",
+            "nullable": true
+          },
+          "groupId": {
+            "type": "integer",
+            "description": "unique identifier for a group name",
+            "format": "int32",
+            "nullable": true
+          },
+          "groupName": {
+            "type": "string",
+            "description": "name of price group",
+            "nullable": true
+          },
+          "categoryId": {
+            "type": "integer",
+            "description": "unique identifier for a category name",
+            "format": "int32",
+            "nullable": true
+          },
+          "categoryName": {
+            "type": "string",
+            "description": "name of price category",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "represents a sector group associated with prices"
+      },
+      "SectorGroupIResponseModel": {
+        "type": "object",
+        "properties": {
+          "metadata": {
+            "$ref": "#/components/schemas/ResponseMetaData"
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SectorGroup"
+            },
+            "description": "Result values",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "An interface for a generic response model"
+      },
+      "Unit": {
+        "type": "object",
+        "properties": {
+          "unitID": {
+            "type": "integer",
+            "description": "unique identifier for a physical unit",
+            "format": "int32"
+          },
+          "unitName": {
+            "type": "string",
+            "description": "",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Represents a unit"
+      },
+      "UnitIResponseModel": {
+        "type": "object",
+        "properties": {
+          "metadata": {
+            "$ref": "#/components/schemas/ResponseMetaData"
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Unit"
+            },
+            "description": "Result values",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "An interface for a generic response model"
+      },
+      "YearLongTerm": {
+        "type": "object",
+        "properties": {
+          "year": {
+            "type": "integer",
+            "description": "",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Represents year data corresponds to"
+      },
+      "YearLongTermIResponseModel": {
+        "type": "object",
+        "properties": {
+          "metadata": {
+            "$ref": "#/components/schemas/ResponseMetaData"
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/YearLongTerm"
+            },
+            "description": "Result values",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "An interface for a generic response model"
+      },
+      "YearShortTerm": {
+        "type": "object",
+        "properties": {
+          "year": {
+            "type": "integer",
+            "description": "",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Represents year data corresponds to"
+      },
+      "YearShortTermIResponseModel": {
+        "type": "object",
+        "properties": {
+          "metadata": {
+            "$ref": "#/components/schemas/ResponseMetaData"
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/YearShortTerm"
+            },
+            "description": "Result values",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "An interface for a generic response model"
+      }
+    },
+    "securitySchemes": {
+
+      "Bearer": {
+        "type": "apiKey",
+        "description": "JWT Authorization header using the Bearer scheme. Enter 'Bearer' [space] and then your token in the text input below. Example: 'Bearer 12345abcdef'",
+        "name": "Authorization",
+        "in": "header"
+      }
+    }
+  },
+  "tags": [
+    {
+      "description": "Collection of endpoints that return Energy Price Forecast data",
+      "name": "Data Endpoints"
+    },
+    {
+      "description": "Collection of endpoints that return metadata for the Energy Price Forecast data sets",
+      "name": "Metadata Endpoints"
+    },
+    {
+      "description": "This returns an Entity Data Model document that contains a complete description of all fields, types, properties, and relationships within this dataset",
+      "name": "Metadata"
+    }
+  ],
+  "security": [
+    {
+
+      "Bearer": []
+    }
+  ]
+}

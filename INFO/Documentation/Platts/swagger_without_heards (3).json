@@ -1,0 +1,1202 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "S&P Global Platts: News and Insights API 1.0",
+    "description": "The News and Insights API comprises of Machine Readable News among other written content like Market Commentaries, Rationales, Spotlights, Market Information and Assessment Summaries, Publication reports, etc. News and other written content will be available for retrieval as soon as it is published via API.",
+    "termsOfService": "https://www.spglobal.com/platts/en/about-platts/website-terms-of-use",
+    "contact": {
+      "name": "Platts API Support",
+      "email": "support@platts.com"
+    },
+    "license": {
+      "name": "Proprietary License",
+      "url": "https://www.spglobal.com/platts/en/about-platts/website-terms-of-use"
+    },
+    "version": "1.0"
+  },
+  "servers": [{
+    "url": "https://api.ci.spglobal.com/news-insights"
+  }],
+  "paths": {
+    "/v1/metadata/story": {
+      "get": {
+        "tags": [
+          "Metadata"
+        ],
+        "summary": "Return all response attributes and supported functions for each attribute for Articles.",
+        "parameters": [
+          {
+            "name": "field",
+            "in": "query",
+            "description": "Use this parameter to specify the fields to be returned in the response. Use the metadata endpoints for the complete list of Fields.<br>Example: Commodity, contentType<br>Default: A default list of fields will be returned specific to each endpoint",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MetadataModel"
+                  }
+                },
+                "example": [{"field":"commodity","description":"The products on which we do assessments or products closely associated with our assessed products.","example":"Agriculture, Petroleum","type":"string","isFilterField":false,"isQueryField":true,"isSelectField":true,"isSortField":true,"isFacetField":true}]
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {"timestamp":"11/22/2021 3:58:33 PM","status":401,"error":"Unauthorized","path":"/v1/metadata","X-Request-ID":"daddadca-fbc1-406c-a879-c813a10c6481"}
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {"timestamp":"11/22/2021 3:58:33 PM","status":400,"error":"BadRequest","path":"/v1/metadata","cause":"Parse Error: There is a problem in parsing the request","X-Request-ID":"17e8e36a-95d2-453d-8d8c-45c9b38fb93f"}
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {"timestamp":"11/22/2021 3:58:33 PM","status":404,"error":"Not Found","path":"/v1/metadata","cause":"Resource Not Found.","X-Request-ID":"daddadca-fbc1-406c-a879-c813a10c6481"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/metadata/subscriber-notes": {
+      "get": {
+        "tags": [
+          "Metadata"
+        ],
+        "summary": "Return all response attributes and supported functions for each attribute for Subscriber Notes.",
+        "parameters": [
+          {
+            "name": "field",
+            "in": "query",
+            "description": "Use this parameter to specify the fields to be returned in the response. Use the metadata endpoints for the complete list of Fields.<br>Example: Commodity, contentType<br>Default: A default list of fields will be returned specific to each endpoint",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MetadataModel"
+                  }
+                },
+                "example": [{"field":"commodity","description":"The products on which we do assessments or products closely associated with our assessed products.","example":"Agriculture, Petroleum","type":"string","isFilterField":false,"isQueryField":true,"isSelectField":true,"isSortField":true,"isFacetField":true}]
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {"timestamp":"11/22/2021 3:58:33 PM","status":401,"error":"Unauthorized","path":"/v1/metadata","X-Request-ID":"daddadca-fbc1-406c-a879-c813a10c6481"}
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {"timestamp":"11/22/2021 3:58:33 PM","status":400,"error":"BadRequest","path":"/v1/metadata","cause":"Parse Error: There is a problem in parsing the request","X-Request-ID":"17e8e36a-95d2-453d-8d8c-45c9b38fb93f"}
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {"timestamp":"11/22/2021 3:58:33 PM","status":404,"error":"Not Found","path":"/v1/metadata","cause":"Resource Not Found.","X-Request-ID":"daddadca-fbc1-406c-a879-c813a10c6481"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/metadata/packages": {
+      "get": {
+        "tags": [
+          "Metadata"
+        ],
+        "summary": "Return all response attributes and supported functions for each attribute for Packages.",
+        "parameters": [
+          {
+            "name": "field",
+            "in": "query",
+            "description": "Use this parameter to specify the fields to be returned in the response. Use the metadata endpoints for the complete list of Fields.<br>Example: Commodity, contentType<br>Default: A default list of fields will be returned specific to each endpoint",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MetadataModel"
+                  }
+                },
+                "example": [
+                  {
+                    "field": "commodity",
+                    "description": "The products on which we do assessments or products closely associated with our assessed products.",
+                    "example": "Agriculture, Petroleum",
+                    "type": "string",
+                    "isFilterField": false,
+                    "isQueryField": true,
+                    "isSelectField": true,
+                    "isSortField": true,
+                    "isFacetField": true
+                  }
+                ]
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {
+                  "timestamp": "2/14/2022 1:41:46 PM",
+                  "status": 400,
+                  "error": "BadRequest",
+                  "path": "/v1/metadata",
+                  "cause": "Parse Error: There is a problem in parsing the request",
+                  "X-Request-ID": "17e8e36a-95d2-453d-8d8c-45c9b38fb93f"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {
+                  "timestamp": "2/14/2022 1:41:46 PM",
+                  "status": 401,
+                  "error": "Unauthorized",
+                  "path": "/v1/metadata",
+                  "X-Request-ID": "daddadca-fbc1-406c-a879-c813a10c6481"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {
+                  "timestamp": "2/14/2022 1:41:46 PM",
+                  "status": 404,
+                  "error": "Not Found",
+                  "path": "/v1/metadata",
+                  "cause": "Resource Not Found.",
+                  "X-Request-ID": "daddadca-fbc1-406c-a879-c813a10c6481"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/search/story": {
+      "get": {
+        "tags": [
+          "Search"
+        ],
+        "summary": "Search for criteria within all Articles.",
+        "parameters":  [
+          {
+            "name": "q",
+            "in": "query",
+            "description": "Use this parameter for filtering results based on a keyword search with one or more search expressions.\r\n<br>Example: \"Suez Canal\"; \"Cop 26\"; \"Suez Canal\" OR \"Cop 26\"",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "field",
+            "in": "query",
+            "description": "Use this parameter to specify the fields to be returned in the response. Use the metadata endpoints for the complete list of Fields.\r\n<br>Example:Commodity, contentType<br>Default: A default list of fields will be returned specific to each endpoint",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "User this parameter to filter results based on one or more specific field search criteria.\r\nSupported operators are AND, OR, IN, NOT < , >, >=,<=\r\n<br>Example: geography:\"Europe\" AND commodity IN (\"Natural Gas\",\"LNG\") AND updatedDate> \"2021-11-12 00:00:00.0\"<br>Default: None",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "facet.field",
+            "in": "query",
+            "description": "Use this parameter to provide a list of distinct values for a given search result and the number of documents containing that value.\r\n<br>Example: commodity<br>Default: None",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "User this parameter to sort with one or more applicable fields.\r\n<br>Example: updatedDate:desc<br>Default: Descending order of updatedDate ",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pagesize",
+            "in": "query",
+            "description": "Request the number of records to be returned per page in the API response.\r\n<br>Default: 100 <br>Maximum: 1000<br>Example: 200",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Request for a specific page based on the page size and the total number records. Page numbers requested outside the range of paginated records for the specified page size will return empty record set.\r\n<br>Default: 1<br>Example: 10",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "preferred_language",
+            "in": "query",
+            "description": "Use this optional parameter for retrieving the results in a language of your choice. Use 'language' in the facet.field parameter to return the distinct list of applicable languages.<br>Note: In case a language is specified, results may include English content based on your search criteria<br>Default: If not passed, only content in English will be returned by default<br>Example: \"Spanish\"",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchContentGroupDataModel"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {"timestamp":"11/22/2021 3:58:33 PM","status":404,"error":"Not Found","path":"/v1/search","cause":"Resource Not Found.","X-Request-ID":"daddadca-fbc1-406c-a879-c813a10c6481"}
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {"timestamp":"11/22/2021 3:58:33 PM","status":401,"error":"Unauthorized","path":"/v1/search","X-Request-ID":"daddadca-fbc1-406c-a879-c813a10c6481"}
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {"timestamp":"11/22/2021 3:58:33 PM","status":400,"error":"BadRequest","path":"/v1/search/heards","cause":"Field: alertHeadline is not supported for Filter operation","X-Request-ID":"17e8e36a-95d2-453d-8d8c-45c9b38fb93f"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/search/story/top-news": {
+      "get": {
+        "tags": [
+          "Search"
+        ],
+        "summary": "Search within our Top News.",
+        "parameters":  [
+          {
+            "name": "q",
+            "in": "query",
+            "description": "Use this parameter for filtering results based on a keyword search with one or more search expressions.\r\n<br>Example: \"Suez Canal\"; \"Cop 26\"; \"Suez Canal\" OR \"Cop 26\"",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "field",
+            "in": "query",
+            "description": "Use this parameter to specify the fields to be returned in the response. Use the metadata endpoints for the complete list of Fields.\r\n<br>Example:Commodity, contentType<br>Default: A default list of fields will be returned specific to each endpoint",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "User this parameter to filter results based on one or more specific field search criteria.\r\nSupported operators are AND, OR, IN, NOT < , >, >=,<=\r\n<br>Example: geography:\"Europe\" AND commodity IN (\"Natural Gas\",\"LNG\") AND updatedDate> \"2021-11-12 00:00:00.0\"<br>Default: None",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "facet.field",
+            "in": "query",
+            "description": "Use this parameter to provide a list of distinct values for a given search result and the number of documents containing that value.\r\n<br>Example: commodity<br>Default: None",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "User this parameter to sort with one or more applicable fields.\r\n<br>Example: updatedDate:desc<br>Default: Descending order of updatedDate ",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pagesize",
+            "in": "query",
+            "description": "Request the number of records to be returned per page in the API response.\r\n<br>Default: 100 <br>Maximum: 1000<br>Example: 200",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Request for a specific page based on the page size and the total number records. Page numbers requested outside the range of paginated records for the specified page size will return empty record set.\r\n<br>Default: 1<br>Example: 10",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "preferred_language",
+            "in": "query",
+            "description": "Use this optional parameter for retrieving the results in a language of your choice. Use 'language' in the facet.field parameter to return the distinct list of applicable languages.<br>Note: In case a language is specified, results may include English content based on your search criteria<br>Default: If not passed, only content in English will be returned by default<br>Example: \"Spanish\"",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchContentGroupDataModel"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {"timestamp":"11/22/2021 3:58:33 PM","status":404,"error":"Not Found","path":"/v1/search","cause":"Resource Not Found.","X-Request-ID":"daddadca-fbc1-406c-a879-c813a10c6481"}
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {"timestamp":"11/22/2021 3:58:33 PM","status":401,"error":"Unauthorized","path":"/v1/search","X-Request-ID":"daddadca-fbc1-406c-a879-c813a10c6481"}
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {"timestamp":"11/22/2021 3:58:33 PM","status":400,"error":"BadRequest","path":"/v1/search/heards","cause":"Field: alertHeadline is not supported for Filter operation","X-Request-ID":"17e8e36a-95d2-453d-8d8c-45c9b38fb93f"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/search/story/latest-news": {
+      "get": {
+        "tags": [
+          "Search"
+        ],
+        "summary": "Search within our Latest News.",
+        "parameters":  [
+          {
+            "name": "q",
+            "in": "query",
+            "description": "Use this parameter for filtering results based on a keyword search with one or more search expressions.\r\n<br>Example: \"Suez Canal\"; \"Cop 26\"; \"Suez Canal\" OR \"Cop 26\"",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "field",
+            "in": "query",
+            "description": "Use this parameter to specify the fields to be returned in the response. Use the metadata endpoints for the complete list of Fields.\r\n<br>Example:Commodity, contentType<br>Default: A default list of fields will be returned specific to each endpoint",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "User this parameter to filter results based on one or more specific field search criteria.\r\nSupported operators are AND, OR, IN, NOT < , >, >=,<=\r\n<br>Example: geography:\"Europe\" AND commodity IN (\"Natural Gas\",\"LNG\") AND updatedDate> \"2021-11-12 00:00:00.0\"<br>Default: None",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "facet.field",
+            "in": "query",
+            "description": "Use this parameter to provide a list of distinct values for a given search result and the number of documents containing that value.\r\n<br>Example: commodity<br>Default: None",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "User this parameter to sort with one or more applicable fields.\r\n<br>Example: updatedDate:desc<br>Default: Descending order of updatedDate ",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pagesize",
+            "in": "query",
+            "description": "Request the number of records to be returned per page in the API response.\r\n<br>Default: 100 <br>Maximum: 1000<br>Example: 200",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Request for a specific page based on the page size and the total number records. Page numbers requested outside the range of paginated records for the specified page size will return empty record set.\r\n<br>Default: 1<br>Example: 10",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "preferred_language",
+            "in": "query",
+            "description": "Use this optional parameter for retrieving the results in a language of your choice. Use 'language' in the facet.field parameter to return the distinct list of applicable languages.<br>Note: In case a language is specified, results may include English content based on your search criteria<br>Default: If not passed, only content in English will be returned by default<br>Example: \"Spanish\"",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchContentGroupDataModel"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {"timestamp":"11/22/2021 3:58:33 PM","status":404,"error":"Not Found","path":"/v1/search","cause":"Resource Not Found.","X-Request-ID":"daddadca-fbc1-406c-a879-c813a10c6481"}
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {"timestamp":"11/22/2021 3:58:33 PM","status":401,"error":"Unauthorized","path":"/v1/search","X-Request-ID":"daddadca-fbc1-406c-a879-c813a10c6481"}
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {"timestamp":"11/22/2021 3:58:33 PM","status":400,"error":"BadRequest","path":"/v1/search/heards","cause":"Field: alertHeadline is not supported for Filter operation","X-Request-ID":"17e8e36a-95d2-453d-8d8c-45c9b38fb93f"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/search/story/spotlights": {
+      "get": {
+        "tags": [
+          "Search"
+        ],
+        "summary": "Search within our spotlights.",
+        "parameters":  [
+          {
+            "name": "q",
+            "in": "query",
+            "description": "Use this parameter for filtering results based on a keyword search with one or more search expressions.\r\n<br>Example: \"Suez Canal\"; \"Cop 26\"; \"Suez Canal\" OR \"Cop 26\"",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "field",
+            "in": "query",
+            "description": "Use this parameter to specify the fields to be returned in the response. Use the metadata endpoints for the complete list of Fields.\r\n<br>Example:Commodity, contentType<br>Default: A default list of fields will be returned specific to each endpoint",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "User this parameter to filter results based on one or more specific field search criteria.\r\nSupported operators are AND, OR, IN, NOT < , >, >=,<=\r\n<br>Example: geography:\"Europe\" AND commodity IN (\"Natural Gas\",\"LNG\") AND updatedDate> \"2021-11-12 00:00:00.0\"<br>Default: None",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "facet.field",
+            "in": "query",
+            "description": "Use this parameter to provide a list of distinct values for a given search result and the number of documents containing that value.\r\n<br>Example: commodity<br>Default: None",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "User this parameter to sort with one or more applicable fields.\r\n<br>Example: updatedDate:desc<br>Default: Descending order of updatedDate ",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pagesize",
+            "in": "query",
+            "description": "Request the number of records to be returned per page in the API response.\r\n<br>Default: 100 <br>Maximum: 1000<br>Example: 200",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Request for a specific page based on the page size and the total number records. Page numbers requested outside the range of paginated records for the specified page size will return empty record set.\r\n<br>Default: 1<br>Example: 10",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "preferred_language",
+            "in": "query",
+            "description": "Use this optional parameter for retrieving the results in a language of your choice. Use 'language' in the facet.field parameter to return the distinct list of applicable languages.<br>Note: In case a language is specified, results may include English content based on your search criteria<br>Default: If not passed, only content in English will be returned by default<br>Example: \"Spanish\"",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchContentGroupDataModel"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {"timestamp":"11/22/2021 3:58:33 PM","status":404,"error":"Not Found","path":"/v1/search","cause":"Resource Not Found.","X-Request-ID":"daddadca-fbc1-406c-a879-c813a10c6481"}
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {"timestamp":"11/22/2021 3:58:33 PM","status":401,"error":"Unauthorized","path":"/v1/search","X-Request-ID":"daddadca-fbc1-406c-a879-c813a10c6481"}
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {"timestamp":"11/22/2021 3:58:33 PM","status":400,"error":"BadRequest","path":"/v1/search/heards","cause":"Field: alertHeadline is not supported for Filter operation","X-Request-ID":"17e8e36a-95d2-453d-8d8c-45c9b38fb93f"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/search/packages": {
+      "get": {
+        "tags": [
+          "Search"
+        ],
+        "summary": "Search API for content group Package",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "description": "Use this parameter for filtering results based on a keyword search with one or more search expressions.\r\n<br>Example: \"Suez Canal\"; \"Cop 26\"; \"Suez Canal\" OR \"Cop 26\"",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "field",
+            "in": "query",
+            "description": "Use this parameter to specify the fields to be returned in the response. Use the metadata endpoints for the complete list of Fields.\r\n<br>Example:Commodity, contentType<br>Default: A default list of fields will be returned specific to each endpoint",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "User this parameter to filter results based on one or more specific field search criteria.\r\nSupported operators are AND, OR, IN, NOT < , >, >=,<=\r\n<br>Example: geography:\"Europe\" AND commodity IN (\"Natural Gas\",\"LNG\") AND updatedDate> \"2021-11-12 00:00:00.0\"<br>Default: None",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "facet.field",
+            "in": "query",
+            "description": "Use this parameter to provide a list of distinct values for a given search result and the number of documents containing that value.\r\n<br>Example: commodity<br>Default: None",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "User this parameter to sort with one or more applicable fields.\r\n<br>Example: updatedDate:desc<br>Default: Descending order of updatedDate ",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pagesize",
+            "in": "query",
+            "description": "Request the number of records to be returned per page in the API response.\r\n<br>Default: 100 <br>Maximum: 1000<br>Example: 200",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Request for a specific page based on the page size and the total number records. Page numbers requested outside the range of paginated records for the specified page size will return empty record set.\r\n<br>Default: 1<br>Example: 10",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "preferred_language",
+            "in": "query",
+            "description": "Show the content in user preferred language.\r\n<br>Default: en<br>Example: Spanish",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchContentGroupDataModel"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {"timestamp":"8/19/2022 9:07:39 PM","status":404,"error":"Not Found","path":"/v1/search","cause":"Resource Not Found.","X-Request-ID":"daddadca-fbc1-406c-a879-c813a10c6481"}
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {"timestamp":"8/19/2022 9:07:39 PM","status":401,"error":"Unauthorized","path":"/v1/search","X-Request-ID":"daddadca-fbc1-406c-a879-c813a10c6481"}
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {"timestamp":"8/19/2022 9:07:39 PM","status":400,"error":"BadRequest","path":"/v1/search/heards","cause":"Field: alertHeadline is not supported for Filter operation","X-Request-ID":"17e8e36a-95d2-453d-8d8c-45c9b38fb93f"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/search/subscriber-notes": {
+      "get": {
+        "tags": [
+          "Search"
+        ],
+        "summary": "Search for criteria within all Subscriber Notes.",
+        "parameters":  [
+          {
+            "name": "q",
+            "in": "query",
+            "description": "Use this parameter for filtering results based on a keyword search with one or more search expressions.\r\n<br>Example: \"Suez Canal\"; \"Cop 26\"; \"Suez Canal\" OR \"Cop 26\"",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "field",
+            "in": "query",
+            "description": "Use this parameter to specify the fields to be returned in the response. Use the metadata endpoints for the complete list of Fields.\r\n<br>Example:Commodity, contentType<br>Default: A default list of fields will be returned specific to each endpoint",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "User this parameter to filter results based on one or more specific field search criteria.\r\nSupported operators are AND, OR, IN, NOT < , >, >=,<=\r\n<br>Example: geography:\"Europe\" AND commodity IN (\"Natural Gas\",\"LNG\") AND updatedDate> \"2021-11-12 00:00:00.0\"<br>Default: None",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "facet.field",
+            "in": "query",
+            "description": "Use this parameter to provide a list of distinct values for a given search result and the number of documents containing that value.\r\n<br>Example: commodity<br>Default: None",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "User this parameter to sort with one or more applicable fields.\r\n<br>Example: updatedDate:desc<br>Default: Descending order of updatedDate ",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pagesize",
+            "in": "query",
+            "description": "Request the number of records to be returned per page in the API response.\r\n<br>Default: 100 <br>Maximum: 1000<br>Example: 200",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Request for a specific page based on the page size and the total number records. Page numbers requested outside the range of paginated records for the specified page size will return empty record set.\r\n<br>Default: 1<br>Example: 10",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "preferred_language",
+            "in": "query",
+            "description": "Use this optional parameter for retrieving the results in a language of your choice. Use 'language' in the facet.field parameter to return the distinct list of applicable languages.<br>Note: In case a language is specified, results may include English content based on your search criteria<br>Default: If not passed, only content in English will be returned by default<br>Example: \"Spanish\"",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchContentGroupDataModel"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {"timestamp":"11/22/2021 3:58:33 PM","status":404,"error":"Not Found","path":"/v1/search","cause":"Resource Not Found.","X-Request-ID":"daddadca-fbc1-406c-a879-c813a10c6481"}
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {"timestamp":"11/22/2021 3:58:33 PM","status":401,"error":"Unauthorized","path":"/v1/search","X-Request-ID":"daddadca-fbc1-406c-a879-c813a10c6481"}
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {"timestamp":"11/22/2021 3:58:33 PM","status":400,"error":"BadRequest","path":"/v1/search/heards","cause":"Field: alertHeadline is not supported for Filter operation","X-Request-ID":"17e8e36a-95d2-453d-8d8c-45c9b38fb93f"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/content/{id}": {
+      "get": {
+        "tags": [
+          "Content"
+        ],
+        "summary": "Return content based on a unique idenfier.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of the content to be retrieved.<br>Example: 35c1386d-196b-4541-b8f8-7e23874d497f",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {"timestamp":"11/22/2021 3:58:32 PM","status":404,"error":"Not Found","path":"/v1/content","cause":"Resource Not Found.","X-Request-ID":"daddadca-fbc1-406c-a879-c813a10c6481"}
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {"timestamp":"11/22/2021 3:58:33 PM","status":401,"error":"Unauthorized","path":"/v1/content","X-Request-ID":"daddadca-fbc1-406c-a879-c813a10c6481"}
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {"timestamp":"11/22/2021 3:58:33 PM","status":400,"error":"BadRequest","path":"/v1/content","cause":"Field: schema is not supported for Filter operation.","X-Request-ID":"17e8e36a-95d2-453d-8d8c-45c9b38fb93f"}
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ErrorModel": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "error": {
+            "type": "string",
+            "nullable": true
+          },
+          "path": {
+            "type": "string",
+            "nullable": true
+          },
+          "cause": {
+            "type": "string",
+            "nullable": true
+          },
+          "X-Request-ID": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Facet": {
+        "type": "object",
+        "properties": {
+          "facet_counts": {
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "MarkLogic contentservices search API response model"
+      },
+      "MetadataModel": {
+        "type": "object",
+        "properties": {
+          "field": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "example": {
+            "type": "string",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "isFilterField": {
+            "type": "boolean"
+          },
+          "isQueryField": {
+            "type": "boolean"
+          },
+          "isSelectField": {
+            "type": "boolean"
+          },
+          "isSortField": {
+            "type": "boolean"
+          },
+          "isFacetField": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ResultsModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "headline": {
+            "type": "string",
+            "nullable": true
+          },
+          "updatedDate": {
+            "type": "string",
+			      "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "MarkLogic contentservices search API response model.\r\nNote: Only Default fields are shown. For complete list, refer metadata api"
+      },
+      "SearchContentGroupDataModel": {
+        "type": "object",
+        "properties": {
+          "metadata": {
+            "$ref": "#/components/schemas/SearchMetadata"
+          },
+          "facets": {
+            "$ref": "#/components/schemas/Facet"
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ResultsModel"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "MarkLogic contentservices search API response model"
+      },
+      "SearchMetadata": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer",
+            "description": "Total Records for Data",
+            "format": "int32"
+          },
+          "page": {
+            "type": "integer",
+            "description": "The user can request for a specific page based on the page size and the total number records. If the value is not specified it will default to the first page. If the page number requested is outside the range of paginated records for the specified page size, it will return empty record set. </br>Default: 1 </br>Example: 10",
+            "format": "int32"
+          },
+          "pagesize": {
+            "type": "integer",
+            "description": "Using this parameter the user can request the number of records that have to be fetched as part of the response.",
+            "format": "int32"
+          },
+          "total_pages": {
+            "type": "integer",
+            "description": "Using this parameter the user know the total number of pages in a response specific to each request",
+            "format": "int32"
+          },
+          "query_time": {
+            "type": "string",
+            "description": "Using this parameter the user know the API response time specific to each request",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "securitySchemes": {
+
+      "Bearer": {
+        "type": "apiKey",
+        "description": "JWT Authorization header using the Bearer scheme. \r\n                      Enter 'Bearer' [space] and then your token in the text input below.\r\n                      Example: 'Bearer 12345abcdef'",
+        "name": "Authorization",
+        "in": "header"
+      }
+    }
+  },
+  "security": [
+
+    {
+      "Bearer": [ ]
+    }
+  ]
+}

@@ -1,0 +1,1813 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "S&P Global Platts: Platts Market Data 3.0 (Beta)",
+    "description": "Platts Market Data - Receive and interpret our energy, petrochemicals, metals, shipping and agriculture data faster and easier than ever before.",
+    "termsOfService": "https://www.spglobal.com/platts/en/about-platts/website-terms-of-use,",
+    "contact": {
+      "name": "Platts API Support",
+      "email": "CI.support@spglobal.com"
+    },
+    "license": {
+      "name": "Proprietary License",
+      "url": "https://www.spglobal.com/platts/en/about-platts/website-terms-of-use"
+    },
+    "version": "3.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.ci.spglobal.com/market-data"
+    }
+  ],
+  "paths": {
+    "/v3/value/correction/symbol": {
+      "get": {
+        "tags": [
+          "Corrections API"
+        ],
+        "summary": "Get Correction data by symbol for a specified date range",
+        "parameters": [
+          {
+            "name": "Field",
+            "in": "query",
+            "description": "Use this parameter to return optional fields in the API response. If the parameter is not passed, the response will contain all default fields. \r\n\r\n<br>Default: All Market Data fields returned by default<br>Example: mdc",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Filter",
+            "in": "query",
+            "description": "Criteria used to narrow down the API response. Filter criteria are the combinations of a field, an operand, and a value.\r\n\r\nRequired: Symbol<br>Example: symbol IN (\"PCAAS00\",\"IGBAP21\") AND (bate:\"c\" OR bate:\"u\") AND assessDate>\"2020-02-01\" AND assessDate<\"2021-02-01\" \r\n\r\nSee the Use Cases & FAQs tabs for more help. See Metadata endpoint for supported fields.",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "Sort",
+            "in": "query",
+            "description": "Request to sort API response by Symbol, assessDate, and/or modDate ascending/descending.\r\n\r\nDefault: symbol ascending, assessDate ascending, modDate ascending, bates ascending\r\n\r\nExample: symbol:asc,assessDate:desc",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "description": "Request the number of records to be returned per page in the API response.\r\n\r\n<br>Default: 1000 <br>Maximum: 10000<br>Example: 2000",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Page",
+            "in": "query",
+            "description": "Request for a specific page based on the page size and the total number records. Page numbers requested outside the range of paginated records for the specified page size will return an error.\r\n\r\n<br>Default: 1<br>Example: 10",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CorrectionResponseModel"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/value/correction/symbol-bate": {
+      "get": {
+        "tags": [
+          "Corrections API"
+        ],
+        "summary": "Get correction data by a specified Symbol-Bate combination",
+        "parameters": [
+          {
+            "name": "Field",
+            "in": "query",
+            "description": "Use this parameter to return optional fields in the API response. If the parameter is not passed, the response will contain all default fields. \r\n\r\n<br>Default: All Market Data fields returned by default<br>Example: mdc",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Filter",
+            "in": "query",
+            "description": "Criteria used to narrow down the API response. Filter criteria are the combinations of a field, an operand, and a value. \r\n\r\n<br>Required:symbolbate<br>Example: symbolbate:\"IGBAP21-u\" AND assessDate>\"2020-02-01\" AND assessDate<\"2021-02-01\"\r\n\r\nNote: CorrectionType field tells you whether a field was updated (UPD) or deleted (DEL)\r\n\r\nSee the Use Cases & FAQs tabs for more help. See Metadata endpoint for supported fields.",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "Sort",
+            "in": "query",
+            "description": "Request to sort API response by Symbol, assessDate, and/or modDate ascending/descending.\r\n\r\nDefault: symbol ascending, assessDate ascending, modDate ascending, bates ascending\r\n\r\nExample: symbol:asc,assessDate:desc",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "description": "Request the number of records to be returned per page in the API response.\r\n\r\n<br>Default: 1000 <br>Maximum: 10000<br>Example: 2000",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Page",
+            "in": "query",
+            "description": "Request for a specific page based on the page size and the total number records. Page numbers requested outside the range of paginated records for the specified page size will return an error.\r\n\r\n<br>Default: 1<br>Example: 10",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CorrectionResponseModel"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/value/correction/mdc": {
+      "get": {
+        "tags": [
+          "Corrections API"
+        ],
+        "summary": "Get Correction data by MDC",
+        "parameters": [
+          {
+            "name": "Field",
+            "in": "query",
+            "description": "Use this parameter to return optional fields in the API response. If the parameter is not passed, the response will contain all default fields. \r\n\r\n<br>Default: All Market Data fields returned by default<br>Example: mdc",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Filter",
+            "in": "query",
+            "description": "Criteria used to narrow down the API response. Filter criteria are the combinations of a field, an operand, and a value. \r\n\r\n<br>Required:mdc<br>Example: mdc:\"IF\" AND assessDate>\"2020-02-01\" AND assessDate<\"2021-02-01\"\r\n\r\nNote: CorrectionType field tells you whether a field was updated (UPD) or deleted (DEL)\r\n\r\nSee the Use Cases & FAQs tabs for more help. See the Metadata endpoint for supported fields.",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "Sort",
+            "in": "query",
+            "description": "Request to sort API response by Symbol, assessDate, and/or modDate ascending/descending.\r\n\r\nDefault: symbol ascending, assessDate ascending, modDate ascending, bates ascending\r\n\r\nExample: symbol:asc,assessDate:desc",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "description": "Request the number of records to be returned per page in the API response.\r\n\r\n<br>Default: 1000 <br>Maximum: 10000<br>Example: 2000",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Page",
+            "in": "query",
+            "description": "Request for a specific page based on the page size and the total number records. Page numbers requested outside the range of paginated records for the specified page size will return an error.\r\n\r\n<br>Default: 1<br>Example: 10",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CorrectionResponseModel"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/value/correction/modified-date": {
+      "get": {
+        "tags": [
+          "Corrections API"
+        ],
+        "summary": "Get Correction data by Modify Date",
+        "parameters": [
+          {
+            "name": "Field",
+            "in": "query",
+            "description": "Use this parameter to return optional fields in the API response. If the parameter is not passed, the response will contain all default fields. \r\n\r\n<br>Default: All Market Data fields returned by default<br>Example: mdc",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Filter",
+            "in": "query",
+            "description": "Criteria used to narrow down the API response. Filter criteria are the combinations of a field, an operand, and a value. \r\n\r\n<br>Required:modDate<br>Example: modDate:\"2019-07-10\"\r\n\r\nNote: CorrectionType field tells you whether a field was updated (UPD) or deleted (DEL)\r\n\r\nSee the Use Cases tab for more help",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "Sort",
+            "in": "query",
+            "description": "Use this to specify the order in which the data should be ordered. As of now, this can only be sorted by ascending or descending order of symbol, assessment date and modified date.\r\n\r\n<br>Default: symbol ascending, assessDate ascending, modDate ascending, bates ascending<br>Example: assessDate:desc",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "description": "Request the number of records to be returned per page in the API response.\r\n\r\n<br>Default: 1000 <br>Maximum: 10000<br>Example: 2000",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Page",
+            "in": "query",
+            "description": "Request for a specific page based on the page size and the total number records. Page numbers requested outside the range of paginated records for the specified page size will return an error.\r\n\r\n<br>Default: 1<br>Example: 10",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CorrectionResponseModel"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/value/current/symbol": {
+      "get": {
+        "tags": [
+          "Current API"
+        ],
+        "summary": "Get the latest assessments by Symbol",
+        "parameters": [
+          {
+            "name": "Field",
+            "in": "query",
+            "description": "Use this parameter to return optional fields in the API response\r\n\r\nDefault: bate, assessDate, value, isCorrected, modDate\r\n\r\nExample: UOM, Currency, deltaPrice",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Filter",
+            "in": "query",
+            "description": "Criteria used to narrow down the API response. Filter criteria are the combinations of a field, an operand, and a value.\r\n\r\n<br>Required:symbol<br>Example: symbol IN (\"PCAAS00\",\"IGBAP21\") AND (bate:\"c\" OR bate:\"u\") AND modDate>=\"2021-04-01T00:00:00\"\r\n\r\nSee the Use Cases & FAQs tabs for more help. See Metadata endpoint for supported fields.",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "Sort",
+            "in": "query",
+            "description": "Request to sort API response by Symbol, assessDate, and/or modDate ascending/descending.\r\n\r\nDefault: symbol ascending, assessDate ascending, modDate ascending, bates ascending\r\n\r\nExample: symbol:asc,assessDate:desc",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "description": "Request the number of records to be returned per page in the API response.\r\n\r\n<br>Default: 1000 <br>Maximum: 10000<br>Example: 2000",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Page",
+            "in": "query",
+            "description": "Request for a specific page based on the page size and the total number records. Page numbers requested outside the range of paginated records for the specified page size will return an error.\r\n\r\n<br>Default: 1<br>Example: 10",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CurrentResponseModel"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/value/current/symbol-bate": {
+      "get": {
+        "tags": [
+          "Current API"
+        ],
+        "summary": "Get the latest assessments by a specific Symbol-Bate combination",
+        "parameters": [
+          {
+            "name": "Field",
+            "in": "query",
+            "description": "Use this parameter to return optional fields in the API response\r\n\r\nDefault: bate, assessDate, value, isCorrected, modDate\r\n\r\nExample: UOM, Currency, deltaPrice",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Filter",
+            "in": "query",
+            "description": "Criteria used to narrow down the API response. Filter criteria are the combinations of a field, an operand, and a value.\r\n\r\n<br>Required:symbolbate<br>Example: symbolbate IN (\"PCAAS00-c\",\"IGBAP21-u\") AND modDate>=\"2021-04-01T00:00:00\"\r\n\r\nSee the Use Cases & FAQs tabs for more help. See Metadata endpoint for supported fields.",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "Sort",
+            "in": "query",
+            "description": "Request to sort API response by Symbol, assessDate, and/or modDate ascending/descending.\r\n\r\nDefault: symbol ascending, assessDate ascending, modDate ascending, bates ascending\r\n\r\nExample: symbol:asc,assessDate:desc",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "description": "Request the number of records to be returned per page in the API response.\r\n\r\n<br>Default: 1000 <br>Maximum: 10000<br>Example: 2000",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Page",
+            "in": "query",
+            "description": "Request for a specific page based on the page size and the total number records. Page numbers requested outside the range of paginated records for the specified page size will return an error.\r\n\r\n<br>Default: 1<br>Example: 10",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CurrentResponseModel"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/value/current/mdc": {
+      "get": {
+        "tags": [
+          "Current API"
+        ],
+        "summary": "Get latest data by MDC",
+        "parameters": [
+          {
+            "name": "Field",
+            "in": "query",
+            "description": "Use this parameter to return optional fields in the API response. If the parameter is not passed, the response will contain all default fields. \r\n\r\n<br>Default: All Market Data fields returned by default<br>Example: mdc",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Filter",
+            "in": "query",
+            "description": "Criteria used to narrow down the API response. Filter criteria are the combinations of a field, an operand, and a value. \r\n\r\n<br>Required:mdc<br>Example: mdc:\"IF\"AND modDate>=\"2021-04-01T00:00:00\"\r\n\r\nSee the Use Cases & FAQs tabs for more help. See Metadata endpoint for supported fields.",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "Sort",
+            "in": "query",
+            "description": "Request to sort API response by Symbol, assessDate, and/or modDate ascending/descending.\r\n\r\nDefault: symbol ascending, assessDate ascending, modDate ascending, bates ascending\r\n\r\nExample: symbol:asc,assessDate:desc",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "description": "Request the number of records to be returned per page in the API response.\r\n\r\n<br>Default: 1000 <br>Maximum: 10000<br>Example: 2000",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Page",
+            "in": "query",
+            "description": "Request for a specific page based on the page size and the total number records. Page numbers requested outside the range of paginated records for the specified page size will return an error.\r\n\r\n<br>Default: 1<br>Example: 10",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CurrentResponseModel"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/value/current/modified-date": {
+      "get": {
+        "tags": [
+          "Current API"
+        ],
+        "summary": "Get latest data by Modify Date",
+        "parameters": [
+          {
+            "name": "Field",
+            "in": "query",
+            "description": "Use this parameter to return optional fields in the API response. If the parameter is not passed, the response will contain all default fields. \r\n\r\n<br>Default: All Market Data fields returned by default<br>Example: mdc",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Filter",
+            "in": "query",
+            "description": "Criteria used to narrow down the API response. Filter criteria are the combinations of a field, an operand, and a value. \r\n\r\n<br>Required:modDate<br>Example: modDate:\"2019-07-10\"\r\n\r\nSee the Use Cases tab for more help",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "Sort",
+            "in": "query",
+            "description": "Request to sort API response by Symbol, assessDate, and/or modDate ascending/descending.\r\n\r\nDefault: symbol ascending, assessDate ascending, modDate ascending, bates ascending\r\n\r\nExample: symbol:asc,assessDate:desc",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "description": "Request the number of records to be returned per page in the API response.\r\n\r\n<br>Default: 1000 <br>Maximum: 10000<br>Example: 2000",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Page",
+            "in": "query",
+            "description": "Request for a specific page based on the page size and the total number records. Page numbers requested outside the range of paginated records for the specified page size will return an error.\r\n\r\n<br>Default: 1<br>Example: 10",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CurrentResponseModel"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/value/history/symbol": {
+      "get": {
+        "tags": [
+          "History API"
+        ],
+        "summary": "Get the assessments by Symbol for a specified date range",
+        "parameters": [
+          {
+            "name": "Field",
+            "in": "query",
+            "description": "Use this parameter to return optional fields or to request the Sum, Average, Maximum, Minimum, or Count of a price in the API response. If the parameter is not passed, the response will contain all default fields. \r\n\r\n<br>Default: All Market Data fields returned by default<br>Example: mdc <br>Example:max(value),min(value),sum(value),avg(value),count(value)<br>See Metadata endpoint for supported fields.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Filter",
+            "in": "query",
+            "description": "Criteria used to narrow down the API response. Filter criteria are the combinations of a field, an operand, and a value.\r\n\r\nRequired: Symbol<br>Example: symbol IN (\"PCAAS00\",\"IGBAP21\") AND (bate:\"c\" OR bate:\"u\") AND assessDate>\"2020-02-01\" AND assessDate<\"2021-02-01\" \r\n\r\nSee the Use Cases & FAQs tabs for more help. See Metadata endpoint for supported fields.",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "Sort",
+            "in": "query",
+            "description": "Request to sort API response by Symbol, assessDate, and/or modDate ascending/descending.\r\n\r\nDefault: symbol ascending, assessDate ascending, modDate ascending, bates ascending\r\n\r\nExample: symbol:asc,assessDate:desc",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "description": "Request the number of records to be returned per page in the API response.\r\n\r\n<br>Default: 1000 <br>Maximum: 10000<br>Example: 2000",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Page",
+            "in": "query",
+            "description": "Request for a specific page based on the page size and the total number records. Page numbers requested outside the range of paginated records for the specified page size will return an error.\r\n\r\n<br>Default: 1<br>Example: 10",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HistoryResponseModel"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/value/history/symbol-bate": {
+      "get": {
+        "tags": [
+          "History API"
+        ],
+        "summary": "Get the latest assessments by a specific Symbol-Bate combination for a specified date range",
+        "parameters": [
+          {
+            "name": "Field",
+            "in": "query",
+            "description": "Use this parameter to return optional fields or to request the Sum, Average, Maximum, Minimum, or Count of a price in the API response. If the parameter is not passed, the response will contain all default fields. \r\n\r\n<br>Default: All Market Data fields returned by default<br>Example: mdc <br>Example:max(value),min(value),sum(value),avg(value),count(value)<br>See Metadata endpoint for supported fields.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Filter",
+            "in": "query",
+            "description": "Criteria used to narrow down the API response. Filter criteria are the combinations of a field, an operand, and a value.\r\n\r\nRequired: Symbolbate\r\n\r\nExample: symbolbate IN (\"PCAAS00-c\",\"IGBAP21-u\") AND assessDate>\"2020-02-01\" AND assessDate<\"2021-02-01\"\r\n\r\nSee the Use Cases & FAQs tabs for more help. See Metadata endpoint for supported fields.",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "Sort",
+            "in": "query",
+            "description": "Request to sort API response by Symbol, assessDate, and/or modDate ascending/descending.\r\n\r\nDefault: symbol ascending, assessDate ascending, modDate ascending, bates ascending\r\n\r\nExample: symbol:asc,assessDate:desc",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "description": "Request the number of records to be returned per page in the API response.\r\n\r\n<br>Default: 1000 <br>Maximum: 10000<br>Example: 2000",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Page",
+            "in": "query",
+            "description": "Request for a specific page based on the page size and the total number records. Page numbers requested outside the range of paginated records for the specified page size will return an error.\r\n\r\n<br>Default: 1<br>Example: 10",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HistoryResponseModel"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/value/history/mdc": {
+      "get": {
+        "tags": [
+          "History API"
+        ],
+        "summary": "Get History data by MDC",
+        "parameters": [
+          {
+            "name": "Field",
+            "in": "query",
+            "description": "Use this parameter to return optional fields or to request the Sum, Average, Maximum, Minimum, or Count of a price in the API response. If the parameter is not passed, the response will contain all default fields. \r\n\r\n<br>Default: All Market Data fields returned by default<br>Example: mdc <br>Example:max(value),min(value),sum(value),avg(value),count(value)<br>See Metadata endpoint for supported fields.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Filter",
+            "in": "query",
+            "description": "Criteria used to narrow down the API response. Filter criteria are the combinations of a field, an operand, and a value. \r\n\r\nRequired: mdc\r\n\r\n<br>Example: mdc:\"IF\"AND assessDate>\"2020-02-01\" AND assessDate<\"2021-02-01\"\r\n\r\nSee the Use Cases & FAQs tabs for more help. See Metadata endpoint for supported fields.",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "Sort",
+            "in": "query",
+            "description": "Request to sort API response by Symbol, assessDate, and/or modDate ascending/descending.\r\n\r\nDefault: symbol ascending, assessDate ascending, modDate ascending, bates ascending\r\n\r\nExample: symbol:asc,assessDate:desc",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "description": "Request the number of records to be returned per page in the API response.\r\n\r\n<br>Default: 1000 <br>Maximum: 10000<br>Example: 2000",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Page",
+            "in": "query",
+            "description": "Request for a specific page based on the page size and the total number records. Page numbers requested outside the range of paginated records for the specified page size will return an error.\r\n\r\n<br>Default: 1<br>Example: 10",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HistoryResponseModel"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/value/history/modified-date": {
+      "get": {
+        "tags": [
+          "History API"
+        ],
+        "summary": "Get historical assessments by Modified Date Time",
+        "parameters": [
+          {
+            "name": "Field",
+            "in": "query",
+            "description": "Use this parameter to return optional fields in the API response. If the parameter is not passed, the response will contain all default fields. Request the Sum, Average, Maximum, Minimum, or Count of market data fields.\r\n\r\n<br>Default: All Market Data fields returned by default<br>Example: UOM, Currency, deltaPrice OR sum(value) <br>See the Use Cases & FAQs tabs for more help <br>See Metadata endpoint for supported fields",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Filter",
+            "in": "query",
+            "description": "Criteria used to narrow down the API response. Filter criteria are the combinations of a field, an operand, and a value.\r\n\r\nRequired: modDate\r\n\r\n<br>Example:modDate>=\"2023-04-01T00:00:00\"<br>See the Use Cases & FAQs tabs for more help<br>See Metadata endpoint for supported fields",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Sort",
+            "in": "query",
+            "description": "Request to sort API response by Symbol, assessDate, and/or modDate ascending/descending.\r\n\r\n<br>Default: symbol:asc, modDate:asc Descending <br>Example: symbol:asc,assessDate:desc",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "description": "Request the number of records to be returned per page in the API response.\r\n\r\n<br>Default: 1000 <br>Maximum: 10000<br>Example: 2000",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Page",
+            "in": "query",
+            "description": "Request for a specific page based on the page size and the total number records. Page numbers requested outside the range of paginated records for the specified page size will return an error.\r\n\r\n<br>Default: 1<br>Example: 10",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HistoryResponseModel"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/metadata": {
+      "get": {
+        "tags": [
+          "Metadata"
+        ],
+        "summary": "Get MarketData field names, descriptions, and example values",
+        "operationId": "MarketData Metadata API",
+        "parameters": [
+          {
+            "name": "Field",
+            "in": "query",
+            "description": "Use this parameter to return optional fields in the API response. If the parameter is not passed, the response will contain all default fields. \r\n\r\n<br>Default: All Market Data fields returned by default<br>Example: bate, pValue",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MetadataResponseModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ResponseMetaDataWarning": {
+        "type": "object",
+        "properties": {
+          "invalid_symbol": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "unsubscribed_symbol": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "unsubscribed_mdc": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "invalid_bate": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ResponseMetaData": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer",
+            "description": "Total Record for Data",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "page": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "queryTime": {
+            "type": "string",
+            "description": "Using this parameter the user know the API response time specific to each request",
+            "nullable": true
+          },
+          "warning": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ResponseMetaDataWarning"
+              }
+            ],
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CorrectionResultReferenceDataModel": {
+        "type": "object",
+        "properties": {
+          "mdc": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "uom": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "currency": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CorrectionResultDataModel": {
+        "type": "object",
+        "properties": {
+          "bate": {
+            "type": "string",
+            "nullable": true
+          },
+          "assessDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "value": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "modDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "pValue": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "pModDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "correctionType": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CorrectionResultModel": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "nullable": true
+          },
+          "referenceData": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CorrectionResultReferenceDataModel"
+              }
+            ],
+            "nullable": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CorrectionResultDataModel"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CorrectionResponseModel": {
+        "type": "object",
+        "properties": {
+          "metadata": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ResponseMetaData"
+              }
+            ],
+            "nullable": true
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CorrectionResultModel"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ErrorModel": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "error": {
+            "type": "string",
+            "nullable": true
+          },
+          "path": {
+            "type": "string",
+            "nullable": true
+          },
+          "cause": {
+            "type": "string",
+            "nullable": true
+          },
+          "correlationid": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CurrentResultReferenceDataModel": {
+        "type": "object",
+        "properties": {
+          "mdc": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "uom": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "currency": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CurrentResultDataChangeModel": {
+        "type": "object",
+        "properties": {
+          "pValue": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "pDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "deltaPrice": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "deltaPercent": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CurrentResultDataModel": {
+        "type": "object",
+        "properties": {
+          "bate": {
+            "type": "string",
+            "nullable": true
+          },
+          "assessDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "value": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "isCorrected": {
+            "type": "string",
+            "nullable": true
+          },
+          "modDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "change": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CurrentResultDataChangeModel"
+              }
+            ],
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CurrentResultModel": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "nullable": true
+          },
+          "referenceData": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CurrentResultReferenceDataModel"
+              }
+            ],
+            "nullable": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CurrentResultDataModel"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CurrentResponseModel": {
+        "type": "object",
+        "properties": {
+          "metadata": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ResponseMetaData"
+              }
+            ],
+            "nullable": true
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CurrentResultModel"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "HistoryResultReferenceDataModel": {
+        "type": "object",
+        "properties": {
+          "mdc": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "uom": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "currency": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "HistoryResultDataModel": {
+        "type": "object",
+        "properties": {
+          "bate": {
+            "type": "string",
+            "nullable": true
+          },
+          "value": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "assessDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isCorrected": {
+            "type": "string",
+            "nullable": true
+          },
+          "modDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "HistoryAggregationResultDataModel": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "nullable": true
+          },
+          "bate": {
+            "type": "string",
+            "nullable": true
+          },
+          "min_value": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "max_value": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "sum_value": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "cnt": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "average_value": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "HistoryResultModel": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "nullable": true
+          },
+          "referenceData": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/HistoryResultReferenceDataModel"
+              }
+            ],
+            "nullable": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/HistoryResultDataModel"
+            },
+            "nullable": true
+          },
+          "aggregation": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/HistoryAggregationResultDataModel"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "HistoryResponseModel": {
+        "type": "object",
+        "properties": {
+          "metadata": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ResponseMetaData"
+              }
+            ],
+            "nullable": true
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/HistoryResultModel"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Field": {
+        "type": "object",
+        "properties": {
+          "field": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "example": {
+            "type": "string",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "isQueryField": {
+            "type": "boolean"
+          },
+          "isSelectField": {
+            "type": "boolean"
+          },
+          "isSortField": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MetadataResponseModel": {
+        "type": "object",
+        "properties": {
+          "historySymbolAPI": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Field"
+            },
+            "nullable": true
+          },
+          "historyMDCAPI": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Field"
+            },
+            "nullable": true
+          },
+          "historySymbolBateAPI": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Field"
+            },
+            "nullable": true
+          },
+          "historyModifiedDateAPI": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Field"
+            },
+            "nullable": true
+          },
+          "currentSymbolAPI": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Field"
+            },
+            "nullable": true
+          },
+          "currentMDCAPI": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Field"
+            },
+            "nullable": true
+          },
+          "currentSymbolBateAPI": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Field"
+            },
+            "nullable": true
+          },
+          "currentModifiedDateAPI": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Field"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "apiKey",
+        "description": "JWT Token",
+        "name": "Authorization",
+        "in": "header"
+      }
+    }
+  },
+  "security": [
+    {
+      "Bearer": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "Current API",
+      "description": "Retrieve the latest assessments"
+    },
+    {
+      "name": "History API",
+      "description": "Retrieve the historical assessments"
+    },
+    {
+      "name": "Corrections API",
+      "description": "Retrieve the corrections"
+    },
+    {
+      "name": "Metadata",
+      "description": "Get MarketData Field Metadata"
+    }
+  ]
+}

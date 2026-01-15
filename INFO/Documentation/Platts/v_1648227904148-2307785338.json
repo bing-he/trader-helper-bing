@@ -1,0 +1,639 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "S&P Global Platts: Platts Reference Data 3.0",
+    "description": "Platts Reference Data - Receive and interpret our energy, petrochemicals, metals, shipping and agriculture data faster and easier than ever before.<br><br>    To view Platts Pricing Holiday Calendar please refer to our website (https://www.spglobal.com/commodityinsights) or Commodity Insights Open Data Portal (dunl.org) to access the latest information. Please refrain from using the Reference Data API to pull the Holiday Calendar at this time.",
+    "termsOfService": "https://www.spglobal.com/platts/en/about-platts/website-terms-of-use,",
+    "contact": {
+      "name": "Contact Platts API Support",
+      "email": "support@platts.com"
+    },
+    "license": {
+      "name": "Proprietary License",
+      "url": "https://www.spglobal.com/platts/en/about-platts/website-terms-of-use"
+    },
+    "version": "3.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.ci.spglobal.com/market-data/reference-data"
+    }
+  ],
+  "paths": {
+    "/v3/search": {
+      "get": {
+        "tags": [
+          "Reference Data Search"
+        ],
+        "summary": "Search for symbols containing specific reference data values",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "description": "Use this parameter for refining results based on a keyword search with one or more search expressions. \r\n<br><br>Example: Dated Brent",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Field",
+            "in": "query",
+            "description": "Use this parameter to specify the fields to be returned in the API response. \r\n<br><br>Default: All Reference Data fields returned<br>Example: currency,commodity",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Filter",
+            "in": "query",
+            "description": "Filter criteria used to narrow down the API response by specific fields and values.Filter criteria are the combinations of a field, an operand, and a value.\r\n<br><br>Example: symbol IN (\"PCAAS00\",\"PCAAT00\")  <br><br>See the Use Cases tab for more help",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Sort",
+            "in": "query",
+            "description": "Request to sort API response by supported reference data field(s) ascending/descending. See Metadata endpoint for supported fields.\r\n<br><br>Default: relevancy <br>Example: symbol:asc,commodity:asc",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "description": "Request the number of records to be returned per page in the API response.\r\n\r\n<br>Default: 100 <br>Maximum: 1000<br>Example: 200",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Page",
+            "in": "query",
+            "description": "Request for a specific page based on the page size and the total number of records. Page numbers requested outside the range of paginated records for the specified page size will return an error. \r\n<br><br>Default: 1<br>Example: 10",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Facet.Field",
+            "in": "query",
+            "description": "Use this parameter to provide a list of distinct values for a given search result and the number of records containing that value.\r\n<br><br>Default: none<br> Example: active",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "subscribed_only",
+            "in": "query",
+            "description": "Use this parameter to return reference data based on your market data subscriptions. If set to FALSE, then all reference data is returned regardless of your subscriptions.\r\n<br><br> Example: TRUE<br>Default: TRUE",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RefDataResponseModelExample"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {
+                  "timestamp": "3/16/2022 7:30:33 PM",
+                  "status": 400,
+                  "error": "BadRequest",
+                  "path": "/v3/search",
+                  "cause": "Field: alertHeadline is not supported for Filter operation",
+                  "Request-ID": "17e8e36a-95d2-453d-8d8c-45c9b38fb93f"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {
+                  "timestamp": "3/16/2022 7:30:33 PM",
+                  "status": 401,
+                  "error": "Unauthorized",
+                  "path": "/v3/search",
+                  "Request-ID": "daddadca-fbc1-406c-a879-c813a10c6481"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {
+                  "timestamp": "2020-12-30T11:30:07.9489113Z",
+                  "status": 403,
+                  "error": "Forbidden",
+                  "path": "/v3/search",
+                  "cause": "user is not permitted to access the request. filter is not allowed on these Market Codes: AMDS",
+                  "Request-ID": "17e8e36a-95d2-453d-8d8c-45c9b38fb93f"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {
+                  "timestamp": "3/16/2022 7:30:33 PM",
+                  "status": 422,
+                  "error": "UnprocessableEntity",
+                  "path": "/v3/search",
+                  "cause": "select operation is not allowed on these fields: schema",
+                  "Request-ID": "2db171cd-70cd-4fda-a77f-81a31566c251"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/mdc": {
+      "get": {
+        "tags": [
+          "Reference Data MDC"
+        ],
+        "summary": "Get Reference Data API MDC's, descriptions, subscribed information.",
+        "parameters": [
+          {
+            "name": "subscribed_only",
+            "in": "query",
+            "description": "Use this parameter to return Market Data Categories (MDCs) based on your market data subscriptions. If set to FALSE, then all  MDCs are returned regardless of your subscriptions.\r\n<br> Example: TRUE<br>Default: TRUE",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RefDataMDCResponseModel"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {
+                  "timestamp": "11/3/2022 3:55:17 PM",
+                  "status": 400,
+                  "error": "BadRequest",
+                  "path": "/v3/mdc",
+                  "cause": "Filter is not supported by this endpoint",
+                  "Request-ID": "18e8e36a-95d2-453d-8d8c-45c9b38fb92f"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {
+                  "timestamp": "11/3/2022 3:40:17 PM",
+                  "status": 401,
+                  "error": "Unauthorized",
+                  "path": "/v3/mdc",
+                  "Request-ID": "daddadca-fbc1-406c-a879-c813a10c7681"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {
+                  "timestamp": "11/3/2022 3:58:11 PM",
+                  "status": 500,
+                  "error": "InternalServerError",
+                  "path": "/v3/mdc",
+                  "cause": "Unable to process the request",
+                  "Request-ID": "19e8e36a-95d2-453d-8d8c-45c9b38fb93f"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/metadata": {
+      "get": {
+        "tags": [
+          "Reference Data Metadata"
+        ],
+        "summary": "Get Reference Data API field names, descriptions, example values, and parameters available on each field",
+        "parameters": [
+          {
+            "name": "field",
+            "in": "query",
+            "description": "List of Reference Data field(s) that will be part of the API response. \r\n<br>Default: All fields returned by default.<br>Example: symbol, active",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MetadataResponseModel"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {
+                  "timestamp": "3/16/2022 7:30:33 PM",
+                  "status": 400,
+                  "error": "BadRequest",
+                  "path": "/v3/metadata",
+                  "cause": "Parse Error: There is a problem in parsing the request",
+                  "Request-ID": "17e8e36a-95d2-453d-8d8c-45c9b38fb93f"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {
+                  "timestamp": "3/16/2022 7:30:33 PM",
+                  "status": 401,
+                  "error": "Unauthorized",
+                  "path": "/v3/metadata",
+                  "Request-ID": "daddadca-fbc1-406c-a879-c813a10c6481"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {
+                  "timestamp": "2020-12-30T11:30:07.9489113Z",
+                  "status": 403,
+                  "error": "Forbidden",
+                  "path": "/v3/search",
+                  "cause": "user is not permitted to access the request. filter is not allowed on these Market Codes: AMDS",
+                  "Request-ID": "17e8e36a-95d2-453d-8d8c-45c9b38fb93f"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Client Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorModel"
+                },
+                "example": {
+                  "timestamp": "3/16/2022 7:30:33 PM",
+                  "status": 422,
+                  "error": "UnprocessableEntity",
+                  "path": "/v3/metadata",
+                  "cause": "select operation is not allowed on these fields: schema",
+                  "Request-ID": "2db171cd-70cd-4fda-a77f-81a31566c251"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ResponseMetaDataWarning": {
+        "type": "object",
+        "properties": {
+          "invalid_symbol": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Metadata": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer",
+            "description": "count",
+            "format": "int32"
+          },
+          "pagesize": {
+            "type": "integer",
+            "description": "pagesize",
+            "format": "int32"
+          },
+          "page": {
+            "type": "integer",
+            "description": "page",
+            "format": "int32"
+          },
+          "total_pages": {
+            "type": "integer",
+            "description": "total_pages",
+            "format": "int32"
+          },
+          "query_time": {
+            "type": "string",
+            "description": "query_time",
+            "nullable": true
+          },
+          "warning": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ResponseMetaDataWarning"
+              }
+            ],
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Metadata"
+      },
+      "Result": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "RefDataResponseModelExample": {
+        "type": "object",
+        "properties": {
+          "metadata": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Metadata"
+              }
+            ],
+            "description": "metadata",
+            "nullable": true
+          },
+          "facets": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "facets",
+            "nullable": true
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Result"
+            },
+            "description": "results",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ErrorModel": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "error": {
+            "type": "string",
+            "nullable": true
+          },
+          "path": {
+            "type": "string",
+            "nullable": true
+          },
+          "cause": {
+            "type": "string",
+            "nullable": true
+          },
+          "correlationid": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "MDCMetadata": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer",
+            "description": "count",
+            "format": "int32"
+          },
+          "query_time": {
+            "type": "string",
+            "description": "query_time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "MdcResult": {
+        "type": "object",
+        "properties": {
+          "mdc": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "isSubscribed": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "RefDataMDCResponseModel": {
+        "type": "object",
+        "properties": {
+          "metadata": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MDCMetadata"
+              }
+            ],
+            "description": "metadata",
+            "nullable": true
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MdcResult"
+            },
+            "description": "results",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "RefDataMDCResponseModel"
+      },
+      "Fields": {
+        "type": "object",
+        "properties": {
+          "field": {
+            "type": "string",
+            "description": "FieldName",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "description": "Description",
+            "nullable": true
+          },
+          "example": {
+            "type": "string",
+            "description": "Example",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "description": "Type",
+            "nullable": true
+          },
+          "isQueryField": {
+            "type": "boolean",
+            "description": "IsQueryField"
+          },
+          "isSelectField": {
+            "type": "boolean",
+            "description": "IsSelectField"
+          },
+          "isSortField": {
+            "type": "boolean",
+            "description": "IsSortField"
+          },
+          "isFacetField": {
+            "type": "boolean",
+            "description": "isFacetField"
+          },
+          "isFilterField": {
+            "type": "boolean",
+            "description": "isFilterField"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Field"
+      },
+      "MetadataResponseModel": {
+        "type": "object",
+        "properties": {
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Fields"
+            },
+            "description": "results",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "MetadataResponseModel"
+      }
+    },
+    "securitySchemes": {      
+      "Bearer": {
+        "type": "apiKey",
+        "description": "JWT Authorization header using the Bearer scheme. \r\n                      Enter 'Bearer' [space] and then your token in the text input below.\r\n                      Example: 'Bearer 12345abcdef'",
+        "name": "Authorization",
+        "in": "header"
+      }
+    }
+  },
+  "security": [
+    {
+      "Bearer": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "Reference Data Search",
+      "description": "Search Reference Data"
+    },
+    {
+      "name": "Reference Data Metadata",
+      "description": "Get Reference Data API Field Metadata"
+    },
+    {
+      "name": "Reference Data MDC",
+      "description": "Get Reference Data API MDC's"
+    }
+  ]
+}

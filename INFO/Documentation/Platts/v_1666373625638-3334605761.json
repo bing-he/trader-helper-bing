@@ -1,0 +1,714 @@
+{
+  "asyncapi": "2.1.0",
+  "info": {
+    "title": "Market Data Streaming API",
+    "version": "1.0.0",
+    "description": "The Platts Market Data Streaming Websocket  provides a real-time feed of our Price assessments and other third-party data as soon as they are published."
+  },
+  "servers": {
+    "URL": {
+      "url": "wss://gateway.realtime.platts.com/websocket/v1/subscribe",
+      "protocol": "ws"
+    }
+  },
+  "channels": {
+    "/": {
+      "subscribe": {
+        "description": "Subscription request to receive messages from the Websocket",
+        "message": {
+          "oneOf": [
+            {
+              "$ref": "#/components/messages/subscribe"
+            },
+            {
+              "$ref": "#/components/messages/unsubscribe"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "components": {
+    "messages": {
+      "subscribe": {
+        "description": "Subscribe to the Market Data channel",
+        "payload": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "subscribe",
+                "unsubscribe"
+              ]
+            },
+            "dataType": {
+              "type": "string",
+              "examples": [
+                "Symbols"
+              ]
+            },
+            "criteria": {
+              "type": "object",
+              "properties": {
+                "key": {
+                  "type": "string",
+                  "description": "The entity to filter on",
+                  "enum": [
+                    "mdc_code",
+                    "symbol",
+                    "bate"
+                  ]
+                },
+                "operator": {
+                  "type": "string",
+                  "enum": [
+                    "$eq","$in"
+                  ]
+                },
+                "values": {
+                  "type": "array",
+                  "description": "The Market Data Category code, Symbol, and/ or bate name",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "examples": [
+            {
+              "action": "subscribe",
+              "dataType": "Symbols",
+              "criteria": {
+                "$and": [
+                 {
+                    "key": "Symbol",
+                    "operator": "$eq",
+                    "values": [
+                      "PCAAS00"
+                    ]
+                  },
+                  {
+                    "key": "bate",
+                    "operator": "$eq",
+                    "values": [
+                      "c"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "action": "subscribe",
+              "dataType": "Symbols",
+              "criteria": {
+                "key": "mdc_code",
+                "operator": "$in",
+                "values": [
+                  "RI",
+                  "IB"
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "unsubscribe": {
+        "description": "Unsubscribe from the Market Data channel",
+        "payload": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "enum": [
+                "subscribe",
+                "unsubscribe"
+              ]
+            },
+            "dataType": {
+              "type": "string",
+              "examples": [
+                "Symbols"
+              ]
+            }
+          }
+        },
+        "examples": [
+          {
+            "payload": {
+              "action": "unsubscribe",
+              "dataType": "Symbols"
+            }
+          }
+        ]
+      },
+      "subscriptionResponse": {
+        "description": "Subscription Response",
+        "payload": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "description": "Subscribe",
+              "enum": [
+                "subscribe"
+              ]
+            },
+            "statusCode": {
+              "type": "number",
+              "description": "HTTP Status Code"
+            },
+            "metadata": {
+              "type": "object",
+              "payload": {
+                "type": "object",
+                "properties": {
+                  "channelId": {
+                    "type": "string",
+                    "description": "The ID of the Channel",
+                    "enum": "eu_bfoe"
+                  },
+                  "message": {
+                    "type": "string",
+                    "description": "Whether your subscription was accepted or not"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "examples": [
+          {
+            "payload": {
+              "action": "subscribe",
+              "statusCode": 200,
+              "metadata": {
+                "channelId": "mdc_symbol_bate",
+                "message": "Your subscription has been accepted"
+              }
+            }
+          }
+        ]
+      },
+      "Symbols": {
+        "description": "A Market Data Object",
+        "payload": {
+          "type": "object",
+          "properties": {
+            "BUYER": {
+              "description": "Entity buying the item/activity",
+              "examples": [
+                "Shell Singapore"
+              ],
+              "type": "string"
+            },
+            "BUYER_MNEMONIC": {
+              "description": "The short name of the entity buying the item/activity",
+              "examples": [
+                "USOIL"
+              ],
+              "type": "string"
+            },
+            "BUYER_PARENT": {
+              "description": "Parent of the entity buying the item/activity",
+              "examples": [
+                "Shell"
+              ],
+              "type": "string"
+            },
+            "C1_BASIS_PERIOD": {
+              "description": "Combination Basis 1 Period 1",
+              "examples": [
+                "Any Day"
+              ],
+              "type": "string"
+            },
+            "C1_BASIS_PERIOD_DETAILS": {
+              "description": "Combination Basis 1 Period 2",
+              "examples": [
+                "See TQC"
+              ],
+              "type": "string"
+            },
+            "C1_PERCENTAGE": {
+              "description": "Combination Basis 1 Percentage",
+              "examples": [
+                "10"
+              ],
+              "type": "number"
+            },
+            "C1_PRICE": {
+              "description": "Combination Basis 1 Flat Price",
+              "examples": [
+                "11"
+              ],
+              "type": "number"
+            },
+            "C1_PRICE_BASIS": {
+              "description": "Combination Basis 1",
+              "examples": [
+                "1% FOB NWE cargoes"
+              ],
+              "type": "string"
+            },
+            "C2_BASIS_PERIOD": {
+              "description": "Combination Basis 2 Period 1",
+              "examples": [
+                ""
+              ],
+              "type": "string"
+            },
+            "C2_BASIS_PERIOD_DETAILS": {
+              "description": "Combination Basis 2 Period 2",
+              "examples": [
+                ""
+              ],
+              "type": "string"
+            },
+            "C2_PERCENTAGE": {
+              "description": "Combination Basis 2 Percentage",
+              "examples": [
+                ""
+              ],
+              "type": "number"
+            },
+            "C2_PRICE": {
+              "description": "Combination Basis 2 Flat Price",
+              "examples": [
+                "0"
+              ],
+              "type": "number"
+            },
+            "C2_PRICE_BASIS": {
+              "description": "Combination Basis 2",
+              "examples": [
+                ""
+              ],
+              "type": "string"
+            },
+            "C3_BASIS_PERIOD": {
+              "description": "Combination Basis 3 Period 1",
+              "examples": [
+                ""
+              ],
+              "type": "string"
+            },
+            "C3_BASIS_PERIOD_DETAILS": {
+              "description": "Combination Basis 3 Period 2",
+              "examples": [
+                ""
+              ],
+              "type": "string"
+            },
+            "C3_PERCENTAGE": {
+              "description": "Combination Basis 3 Percentage",
+              "examples": [
+                ""
+              ],
+              "type": "number"
+            },
+            "C3_PRICE": {
+              "description": "Combination Basis 3 Flat Price",
+              "examples": [
+                "0"
+              ],
+              "type": "number"
+            },
+            "C3_PRICE_BASIS": {
+              "description": "Combination Basis 3 ",
+              "examples": [
+                ""
+              ],
+              "type": "string"
+            },
+            "COUNTERPARTY": {
+              "description": "Counterparty/market taker/entity taking the item/activity from ICE",
+              "examples": [
+                "Gazprom Marketing & Trading"
+              ],
+              "type": "string"
+            },
+            "COUNTERPARTY_MNEMONIC": {
+              "description": "The short name of the counterparty/market taker/entity taking the item/activity from ICE",
+              "examples": [
+                "METI"
+              ],
+              "type": "string"
+            },
+            "COUNTERPARTY_PARENT": {
+              "description": "Parent of the entity taking the item/activity from ICE",
+              "examples": [
+                "Gazprom"
+              ],
+              "type": "string"
+            },
+            "DEAL_BEGIN": {
+              "description": "Start timestamp of the Deal",
+              "examples": [
+                "2015-09-07"
+              ],
+              "type": "string",
+              "format": "date"
+            },
+            "DEAL_END": {
+              "description": "End timestamp of the Deal",
+              "examples": [
+                "2015-09-07"
+              ],
+              "type": "string",
+              "format": "date"
+            },
+            "DEAL_ID": {
+              "description": "ICE ID for a consummated trade",
+              "examples": [
+                "1234567"
+              ],
+              "type": "integer"
+            },
+            "DEAL_QUANTITY": {
+              "description": "Quantity of the Deal",
+              "examples": [
+                "25000"
+              ],
+              "type": "number"
+            },
+            "DEAL_QUANTITY_MAX": {
+              "description": "Maximum Quantity of Deal (Phase 2 markets)",
+              "examples": [
+                "28000"
+              ],
+              "type": "number"
+            },
+            "DEAL_QUANTITY_MIN": {
+              "description": "Minimum Quantity of Deal (Phase 2 markets)",
+              "examples": [
+                "28000"
+              ],
+              "type": "number"
+            },
+            "DEAL_TERMS": {
+              "description": "Terms of the Deal",
+              "examples": [
+                "Ship of Buyers choice"
+              ],
+              "type": "string"
+            },
+            "HUB": {
+              "description": "The hub being bid/offered",
+              "examples": [
+                "Platts Cash Dubai Partials (Fateh)"
+              ],
+              "type": "string"
+            },
+            "LEG_PRICES": {
+              "description": "The prices of the legs of spread trades where available",
+              "examples": [
+                "79.00 / 79.25"
+              ],
+              "type": "string"
+            },
+            "LOT_SIZE": {
+              "description": "Size of each lot of the item/activity",
+              "examples": [
+                "1000"
+              ],
+              "type": "integer"
+            },
+            "LOT_UNIT": {
+              "description": "Unit of each lot",
+              "examples": [
+                "bbl"
+              ],
+              "type": "string"
+            },
+            "MARKET": {
+              "description": "Platts market",
+              "examples": [
+                "ASIA Crude Partial"
+              ],
+              "type": "string"
+            },
+            "MARKET_MAKER": {
+              "description": "Participant/market maker/entity posting item/activity on ICE",
+              "examples": [
+                "Shell Singapore"
+              ],
+              "type": "string"
+            },
+            "MARKET_MAKER_MNEMONIC": {
+              "description": "The short name of the participant/market maker/entity posting item/activity on ICE",
+              "examples": [
+                "ASTR"
+              ],
+              "type": "string"
+            },
+            "MARKET_MAKER_PARENT": {
+              "description": "Parent of the entity posting the item/activity on ICE",
+              "examples": [
+                "Shell"
+              ],
+              "type": "string"
+            },
+            "MARKET_SHORT_CODE": {
+              "description": "The short name of the Platts Market",
+              "examples": [
+                "RINS"
+              ],
+              "type": "string"
+            },
+            "MARKET_TYPE": {
+              "description": "Platts physical or financial market",
+              "examples": [
+                "Physical"
+              ],
+              "type": "string"
+            },
+            "OCO_ORDER_ID": {
+              "description": "Order ID's cancelled by creating a Deal with this Order",
+              "examples": [
+                "12345678, 23456789"
+              ],
+              "type": "string"
+            },
+            "ORDER_BEGIN": {
+              "description": "Start timestamp of the Order",
+              "examples": [
+                "2015-09-07"
+              ],
+              "type": "string",
+              "format": "date"
+            },
+            "ORDER_CANCELLED": {
+              "description": "Flag for Cancelled Orders",
+              "examples": [
+                "F"
+              ],
+              "type": "string"
+            },
+            "ORDER_CLASSIFICATION": {
+              "description": "Classification of the Order",
+              "examples": [
+                "OCO"
+              ],
+              "type": "string"
+            },
+            "ORDER_DATE": {
+              "description": "Date of the activity/order/item/etc created on the ICE API",
+              "examples": [
+                "2015-10-15"
+              ],
+              "type": "string",
+              "format": "date"
+            },
+            "ORDER_DERIVED": {
+              "description": "Flag for Implied Trades",
+              "examples": [
+                "T"
+              ],
+              "type": "string"
+            },
+            "ORDER_END": {
+              "description": "End timestamp of the Order",
+              "examples": [
+                "2015-09-07"
+              ],
+              "type": "string",
+              "format": "date"
+            },
+            "ORDER_ID": {
+              "description": "ICE ID for an Order",
+              "examples": [
+                "12345678"
+              ],
+              "type": "integer"
+            },
+            "ORDER_PLATTS_ID": {
+              "description": "Platts ID for an Order",
+              "examples": [
+                "12345678"
+              ],
+              "type": "integer"
+            },
+            "ORDER_QUANTITY": {
+              "description": "Number of lots of the Order",
+              "examples": [
+                "5"
+              ],
+              "type": "number"
+            },
+            "ORDER_QUANTITY_TOTAL": {
+              "description": "Total quantity of the Order",
+              "examples": [
+                "31000"
+              ],
+              "type": "number"
+            },
+            "ORDER_REPEAT": {
+              "description": "Flag for Repeat Orders",
+              "examples": [
+                "T"
+              ],
+              "type": "string"
+            },
+            "ORDER_SEQUENCE": {
+              "description": "Sequence of the Order",
+              "examples": [
+                "1"
+              ],
+              "type": "integer"
+            },
+            "ORDER_SPREAD": {
+              "description": "Flag for Spread orders",
+              "examples": [
+                "T"
+              ],
+              "type": "string"
+            },
+            "ORDER_STATE": {
+              "description": "State of the bid/offer",
+              "examples": [
+                "Consummated"
+              ],
+              "type": "string"
+            },
+            "ORDER_STATE_DETAIL": {
+              "description": "The detailed state of an order corresponding to ORDER_STATE",
+              "examples": [
+                "consummated"
+              ],
+              "type": "string"
+            },
+            "ORDER_TIME": {
+              "description": "Timestamp of the activity/order created/updated in eWindow",
+              "examples": [
+                "9/7/2015 6:12:05 AM"
+              ],
+              "type": "string",
+              "format": "date-time"
+            },
+            "ORDER_TYPE": {
+              "description": "Bid or Offer",
+              "examples": [
+                "Bid"
+              ],
+              "type": "string"
+            },
+            "PARENT_DEAL_ID": {
+              "description": "The Deal ID of the parent spread",
+              "examples": [
+                "148267520"
+              ],
+              "type": "string"
+            },
+            "PRICE": {
+              "description": "Price of each lot",
+              "examples": [
+                "67.78"
+              ],
+              "type": "number"
+            },
+            "PRICE_UNIT": {
+              "description": "Unit of price",
+              "examples": [
+                "USD"
+              ],
+              "type": "string"
+            },
+            "PRODUCT": {
+              "description": "The product being bid/offered",
+              "examples": [
+                "Platts Dubai"
+              ],
+              "type": "string"
+            },
+            "REFERENCE_ORDER_ID": {
+              "description": "ICE ID of the Counterparty/market taker Order",
+              "examples": [
+                "12345678"
+              ],
+              "type": "integer"
+            },
+            "SELLER": {
+              "description": "Entity selling the item/activity",
+              "examples": [
+                "Gazprom Marketing & Trading"
+              ],
+              "type": "string"
+            },
+            "SELLER_MNEMONIC": {
+              "description": "The short name of the entity selling the item/activity",
+              "examples": [
+                "BRIGHTOILINT"
+              ],
+              "type": "string"
+            },
+            "SELLER_PARENT": {
+              "description": "Parent of the entity selling the item/activity",
+              "examples": [
+                "Gazprom"
+              ],
+              "type": "string"
+            },
+            "STRIP": {
+              "description": "Contract dates of the item/activity",
+              "examples": [
+                "Nov14/Dec14"
+              ],
+              "type": "string"
+            },
+            "UPDATE_TIME": {
+              "description": "Timestamp of the activity/order created/updated in the Platts Database",
+              "examples": [
+                "9/7/2015 6:12:05 AM"
+              ],
+              "type": "string",
+              "format": "date-time"
+            },
+            "WINDOW_REGION": {
+              "description": "eWindow Region",
+              "examples": [
+                "Asia"
+              ],
+              "type": "string"
+            },
+            "WINDOW_STATE": {
+              "description": "State of the Window",
+              "examples": [
+                "Pricing"
+              ],
+              "type": "string"
+            }
+          }
+        }
+      },
+      "heartbeat": {
+        "description": "A pulse to notify the client the connection is still alive",
+        "payload": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string",
+              "description": "A heartbeat",
+              "enum": [
+                "heartbeat"
+              ]
+            },
+            "statusCode": {
+              "type": "integer",
+              "description": "HTTP Status Code"
+            }
+          }
+        },
+        "examples": [
+          {
+            "payload": {
+              "action": "heartbeat",
+              "statusCode": 200
+            }
+          }
+        ]
+      }
+    }
+  }
+}
