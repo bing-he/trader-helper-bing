@@ -1,0 +1,64 @@
+# =============================================================================
+# General
+# =============================================================================
+# IDEs / editors
+.idea/
+.vscode/
+*.swp
+
+# OS-generated files
+.DS_Store
+Thumbs.db
+
+# =============================================================================
+# Python
+# =============================================================================
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+
+# Virtual environments - Match in any subfolder
+**/.venv/
+**/.venv*/
+**/*.venv
+.env
+
+# Testing & Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# =============================================================================
+# Data, Logs, and Outputs
+# =============================================================================
+# Logs and manifests
+*.log
+
+# Common output folder names - Match in any subfolder
+**/output/
+**/outputs/
+**/model_outputs/
+
+# Specific output directories from your project
+/Scripts/MarketAnalysis_Report_Output/
+/ICE/Outputs/
+
+# Common data file extensions that should not be versioned
+*.csv
+*.parquet
+*.pkl
+*.joblib
+*.h5
+*.hdf5
+
+# specific folders to ignore
+/ChatGPTAnalyst/
+/ChatGPTPower/
+/james-working-directroy/
+/Scripts/
