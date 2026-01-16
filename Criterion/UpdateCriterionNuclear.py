@@ -5,8 +5,19 @@ This script connects to a database to retrieve historical and forecast generatio
 data for all nuclear units. It aggregates the data from individual units to the
 plant level, adds State and Region information, and saves the final results
 to two separate CSV files.
+Output: 
+    CriterionNuclearHist.csv
+    CriterionNuclearForecast.csv
 """
+# --- allow running as a script while keeping package imports working ---
+if __name__ == "__main__" and __package__ is None:
+    import sys
+    from pathlib import Path
+    repo_root = Path(__file__).resolve().parents[1]  # Criterion/.. -> repo root
+    sys.path.insert(0, str(repo_root))
+# ----------------------------------------------------------------------
 
+###-------------------------------- Imports ---------------------------------###
 import ast
 import logging
 import os

@@ -1,3 +1,25 @@
+""""
+The database continuously adds new pipeline locations
+
+Downstream models / dashboards rely on a stable, curated CSV
+
+This script ensures:
+
+    No duplicates
+
+    No accidental edits to existing rows
+
+    Schema consistency
+"""
+# --- allow running as a script while keeping package imports working ---
+if __name__ == "__main__" and __package__ is None:
+    import sys
+    from pathlib import Path
+    repo_root = Path(__file__).resolve().parents[1]  # Criterion/.. -> repo root
+    sys.path.insert(0, str(repo_root))
+# ----------------------------------------------------------------------
+
+###-------------------------------- Imports ---------------------------------###
 import pandas as pd
 from pathlib import Path
 import sys

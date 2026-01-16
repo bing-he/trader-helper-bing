@@ -7,8 +7,26 @@ This script connects to a database to retrieve two types of LNG data:
 
 It processes each dataset, performing an incremental update for historical data
 and a full overwrite for forecast data, saving the results to separate CSV files.
-"""
 
+Liquefaction = LNG
+Liquefaction happens only when gas needs to be transported long distances without pipelines.
+
+Output:
+    Historical LNG feed gas
+    Saved to: CriterionLNGHist.csv
+
+    Forecast LNG feed gas
+    Saved to: CriterionLNGForecast.csv
+"""
+# --- allow running as a script while keeping package imports working ---
+if __name__ == "__main__" and __package__ is None:
+    import sys
+    from pathlib import Path
+    repo_root = Path(__file__).resolve().parents[1]  # Criterion/.. -> repo root
+    sys.path.insert(0, str(repo_root))
+# ----------------------------------------------------------------------
+
+###-------------------------------- Imports ---------------------------------###
 import logging
 import os
 import traceback

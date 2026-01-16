@@ -8,8 +8,20 @@ and saves the result to a CSV file.
 The script supports incremental updates. If an output file already exists, it
 will only fetch the last 60 days of data to update the records. Otherwise,
 it performs a full data fetch from a predefined start date.
-"""
 
+Data: daily storage change per facility
+Negative daily_storage_change often means net withdrawal (inventory going down) given your sign convention.
+Positive daily_storage_change often means net injection.
+"""
+# --- allow running as a script while keeping package imports working ---
+if __name__ == "__main__" and __package__ is None:
+    import sys
+    from pathlib import Path
+    repo_root = Path(__file__).resolve().parents[1]  # Criterion/.. -> repo root
+    sys.path.insert(0, str(repo_root))
+# ----------------------------------------------------------------------
+
+###-------------------------------- Imports ---------------------------------###
 import logging
 import os
 from datetime import datetime, timedelta

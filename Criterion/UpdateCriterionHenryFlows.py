@@ -5,8 +5,20 @@ This script identifies specific 'Henry' market component tickers from a mapping
 file, finds their corresponding database IDs, and fetches their daily scheduled
 and available flow data. It supports incremental updates by checking for an
 existing output file and fetching only recent data if one is found.
-"""
+Outputs:
 
+INFO/CriterionHenryFlows.csv
+for each day, how much natural gas was scheduled to flow through each Henry Hub pipeline connection versus how much capacity was available
+"""
+# --- allow running as a script while keeping package imports working ---
+if __name__ == "__main__" and __package__ is None:
+    import sys
+    from pathlib import Path
+    repo_root = Path(__file__).resolve().parents[1]  # Criterion/.. -> repo root
+    sys.path.insert(0, str(repo_root))
+# ----------------------------------------------------------------------
+
+###-------------------------------- Imports ---------------------------------###
 import logging
 import os
 import traceback
